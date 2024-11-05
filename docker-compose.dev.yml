@@ -25,6 +25,8 @@ services:
       context: ./
       dockerfile: ./frontend/dev.Dockerfile
     restart: always
+    ports:
+      - "3000:3000"
     volumes:
       - ./frontend:/usr/app
 
@@ -35,9 +37,13 @@ services:
       POSTGRES_DB: laravel
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
     volumes:
       - ./postgres/var/lib/postgresql:/var/lib/postgresql
 
   redis:
     image: redis:7.4.1-alpine
     restart: always
+    ports:
+      - "6379:6379"
