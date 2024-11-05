@@ -7,25 +7,26 @@ services:
       dockerfile: ./nginx.Dockerfile
     restart: always
     volumes:
-      - ./backend/storage:/var/www/app/storage
-      - ./backend/vendor:/var/www/app/vendor
+      - ./nginx/etc/conf.d:/etc/nginx/conf.d
+      - ./backend:/var/www/app
     ports:
       - "80:80"
 
   backend:
     build:
       context: ./
-      dockerfile: ./backend/Dockerfile
-    restart: always
+      dockerfile: ./backend/dev.Dockerfile
+    restart: always 
     volumes:
-      - ./backend/storage:/var/www/app/storage
-      - ./backend/vendor:/var/www/app/vendor
+      - ./backend:/var/www/app
 
   frontend:
     build:
       context: ./
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: ./frontend/dev.Dockerfile
     restart: always
+    volumes:
+      - ./frontend:/usr/app
 
   postgres:
     image: postgres:17.0-alpine3.20
@@ -40,6 +41,3 @@ services:
   redis:
     image: redis:7.4.1-alpine
     restart: always
-
-volumes:
-  postgres_data:
