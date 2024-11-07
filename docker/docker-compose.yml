@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ../
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: ${DOCKER_RESTART}
+    volumes:
+      - ./nginx/etc/conf.d:/etc/nginx/conf.d:ro
+    ports:
+      - "80:80"
+      - "8000:8000"
+    depends_on:
+      - frontend
+      - backend
+
+  backend:
+    build:
+      context: ../
+      dockerfile: ./docker/backend/Dockerfile
+    restart: ${DOCKER_RESTART}
+    environment:
+      DOMAIN: ${DOMAIN}
+      BACKEND_ENV: ${BACKEND_ENV}
+      BACKEND_DEBUG: ${BACKEND_DEBUG}
+      BACKEND_AUTH_TOKEN: ${BACKEND_AUTH_TOKEN}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    build:
+      context: ../
+      dockerfile: ./docker/frontend/Dockerfile
+    restart: ${DOCKER_RESTART}
+    ports:
+      - "3456:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - /app/node_modules
+      - /app/.next
+
+  postgres:
+    image: postgres:17.0-alpine3.20
+    restart: always
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./postgres/var/lib/postgresql:/var/lib/postgresql
+
+  redis:
+    image: redis:7.4.1-alpine
+    restart: ${DOCKER_RESTART}
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "${REDIS_PASSWORD}"
