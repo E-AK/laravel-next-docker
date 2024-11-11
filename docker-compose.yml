@@ -3,12 +3,11 @@ version: '3.8'
 services:
   nginx:
     build:
-      context: ../
+      context: ./
       dockerfile: ./docker/nginx/Dockerfile
     restart: ${DOCKER_RESTART}
     volumes:
-      - ./nginx/etc/conf.d:/etc/nginx/conf.d:ro
-      - ../backend:/var/www/app
+      - ./docker/nginx/etc/conf.d:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
       - "8000:8000"
@@ -18,8 +17,8 @@ services:
 
   backend:
     build:
-      context: ../
-      dockerfile: ./docker/backend/dev.Dockerfile
+      context: ./
+      dockerfile: ./docker/backend/Dockerfile
     restart: ${DOCKER_RESTART}
     environment:
       DOMAIN: ${DOMAIN}
@@ -33,18 +32,17 @@ services:
     depends_on:
       - postgres
       - redis
-    volumes:
-      - ../backend:/var/www/app
 
   frontend:
     build:
       context: ../
-      dockerfile: ./docker/frontend/dev.Dockerfile
+      dockerfile: ./docker/frontend/Dockerfile
     restart: ${DOCKER_RESTART}
+    ports:
+      - "3456:3000"
     stdin_open: true
     tty: true
     volumes:
-      - ../frontend:/app
       - /app/node_modules
       - /app/.next
 
@@ -55,16 +53,12 @@ services:
       POSTGRES_DB: laravel
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-    ports:
-      - "5432:5432"
     volumes:
       - ./postgres/var/lib/postgresql:/var/lib/postgresql
 
   redis:
     image: redis:7.4.1-alpine
     restart: ${DOCKER_RESTART}
-    ports:
-      - "6543:6379"
     command:
       - /bin/sh
       - -c
