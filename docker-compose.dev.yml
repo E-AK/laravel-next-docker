@@ -8,33 +8,45 @@ services:
     restart: ${DOCKER_RESTART}
     volumes:
       - ./docker/nginx/etc/conf.d:/etc/nginx/conf.d:ro
-      - ./backend:/var/www/app
+      - ./api:/var/www/app
     ports:
       - "80:80"
-      - "8000:8000"
+      - "8080:8080"
     depends_on:
       - frontend
 #      - backend
+      - api
 
-  backend:
+  api:
     build:
       context: ./
-      dockerfile: ./docker/backend/dev.Dockerfile
+      dockerfile: ./docker/api/dev.Dockerfile
     restart: ${DOCKER_RESTART}
-    environment:
-      DOMAIN: ${DOMAIN}
-      BACKEND_ENV: ${BACKEND_ENV}
-      BACKEND_DEBUG: ${BACKEND_DEBUG}
-      BACKEND_AUTH_TOKEN: ${BACKEND_AUTH_TOKEN}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
     depends_on:
       - postgres
       - redis
     volumes:
-      - ./backend:/var/www/app
+      - ./api:/var/www/app
+
+#  backend:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/backend/dev.Dockerfile
+#    restart: ${DOCKER_RESTART}
+#    environment:
+#      DOMAIN: ${DOMAIN}
+#      BACKEND_ENV: ${BACKEND_ENV}
+#      BACKEND_DEBUG: ${BACKEND_DEBUG}
+#      BACKEND_AUTH_TOKEN: ${BACKEND_AUTH_TOKEN}
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      REDIS_PASSWORD: ${REDIS_PASSWORD}
+#    depends_on:
+#      - postgres
+#      - redis
+#    volumes:
+#      - ./backend:/var/www/app
 
   frontend:
     build:

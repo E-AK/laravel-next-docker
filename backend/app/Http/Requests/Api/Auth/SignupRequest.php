@@ -6,7 +6,7 @@ use App\Traits\Http\Requests\ValidationTrait;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthRequest extends FormRequest
+class SignupRequest extends FormRequest
 {
     use ValidationTrait;
 
@@ -26,7 +26,7 @@ class AuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => ['required', 'string'],
+            'login' => ['required', 'string', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ];
     }
@@ -35,6 +35,7 @@ class AuthRequest extends FormRequest
     {
         return [
             'login.required' => 'Логин обязателен',
+            'login.unique' => 'Пользователь с таким логином уже есть',
             'password.required' => 'Пароль обязателен',
             'password.min' => 'Пароль должен быть не менее 8 символов',
         ];

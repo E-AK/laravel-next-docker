@@ -15,6 +15,15 @@ services:
       - frontend
       - backend
 
+  api:
+    build:
+      context: ./
+      dockerfile: ./docker/api/dev.Dockerfile
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - postgres
+      - redis
+
   backend:
     build:
       context: ./
