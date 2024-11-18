@@ -2,15 +2,54 @@
 
 namespace App\Controller\Api\Auth;
 
+use App\Entity\User;
+use App\Model\SignupDto;
+use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 class SignupController extends AbstractController
 {
     #[Route('/api/auth/signup', methods: ['POST'])]
-    public function signup(): Response
-    {
-        
+    public function signup(
+        #[MapRequestPayload] SignupDto $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHasher,
+        JWTTokenManagerInterface $JWTManager
+    ): JsonResponse {
+        if ($request->password !== $request->repeat_password) {
+            return new JsonResponse(
+                [
+                    'message' => 'Пароли не совпадают',
+                    'errors' => [
+                        'repeat_password' => 'Пароли не совпадают',
+                    ]
+                ],
+                422
+            );
+        }
+
+        $user = new User();
+        $user->setLogin($request->login);
+
+        $hashedPassword = $passwordHasher->hashPassword(
+            $user,
+            $request->password
+        );
+
+        $user->setPassword($hashedPassword);
+        $token = $JWTManager->create($user);
+        $user->setApiToken($token);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'data' => ['token' => $token]
+        ]);
     }
 }
