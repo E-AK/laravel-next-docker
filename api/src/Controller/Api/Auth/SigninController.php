@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SigninController extends AbstractController
 {
-    #[Route('/api/auth/signin', methods: ['POST'])]
+    #[Route('/api/auth/signin', methods: ['POST'], name: 'api_login')]
     public function signin(
         #[MapRequestPayload] SigninDto $request,
         EntityManagerInterface $entityManager,

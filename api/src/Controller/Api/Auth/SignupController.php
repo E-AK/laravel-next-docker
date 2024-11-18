@@ -43,7 +43,6 @@ class SignupController extends AbstractController
 
         $user->setPassword($hashedPassword);
         $token = $JWTManager->create($user);
-        $user->setApiToken($token);
 
         $entityManager->persist($user);
         $entityManager->flush();
