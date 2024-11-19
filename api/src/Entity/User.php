@@ -77,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->login;
+        return (string) $this->id;
     }
 
     public function getApiTokens(): Collection
@@ -109,5 +109,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             ->filter(fn (ApiToken $token) => $token->isValid())
             ->map(fn (ApiToken $token) => $token->getToken())
             ->toArray();
+    }
+
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
     }
 }
