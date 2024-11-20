@@ -21,6 +21,13 @@ class TaskController extends AbstractController
         ]
     ];
 
+    private const NO_USER = [
+        'message' => 'Пользователь не найден',
+        'error' => [
+            'common' => 'Пользователь не найден',
+        ]
+    ];
+
     public function __construct()
     {
 
@@ -34,16 +41,25 @@ class TaskController extends AbstractController
          */
         $user = $this->getUser();
 
+        if (is_null($user)) {
+            return new JsonResponse(self::NO_USER, 403);
+        }
+
         $tasks = $user->getTasks();
 
         $data = [
-            'data' => $tasks,
+            'data' => [],
         ];
 
-        $serializer = JMS\Serializer\SerializerBuilder::create()->build();
-        $jsonContent = $serializer->serialize($data, 'json');
+        foreach ($tasks as $task) {
+            $data['data'][] = [
+                'id' => $task->getId(),
+                'text' => $task->getText(),
+                'status' => $task->getStatus(),
+            ];
+        }
 
-        return new JsonResponse($serializer);
+        return new JsonResponse($data);
     }
 
     /**
@@ -62,12 +78,7 @@ class TaskController extends AbstractController
         $user = $this->getUser();
 
         if (is_null($user)) {
-            return new JsonResponse([
-                'message' => 'Пользователь не найден',
-                'error' => [
-                    'common' => 'Пользователь не найден',
-                ]
-            ]);
+            return new JsonResponse(self::NO_USER, 403);
         }
 
         $task->setText($request->text);

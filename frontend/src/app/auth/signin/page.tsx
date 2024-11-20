@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState, useEffect  } from 'react';
 import { redirect } from 'next/navigation';
 
-export default function Example() {
+export default function Signin() {
     const [data, setData] = useState({
         login: null,
         password: null,
@@ -49,7 +49,7 @@ export default function Example() {
         if (token !== undefined) {
             axios({
                 method: 'get',
-                url: 'http://localhost:8000/api/user/me',
+                url: `http://localhost:8080/api/user/me`,
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -65,7 +65,7 @@ export default function Example() {
     function signIn() {
         axios({
             method: 'post',
-            url: 'http://localhost:8000/api/auth/signin',
+            url: `http://localhost:8080/api/auth/signin`,
             data: {
                 login: data.login,
                 password: data.password,

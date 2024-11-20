@@ -39,7 +39,7 @@ export default function RootLayout({
     if (token !== undefined) {
       axios({
         method: 'get',
-        url: 'http://localhost:8000/api/user/me',
+        url: 'http://localhost:8080/api/user/me',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -81,6 +81,7 @@ export default function RootLayout({
       <nav className="bg-white shadow-md">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-800">Test</h1>
+            <a href="/task">Task</a>
 
           <div className="hidden md:flex space-x-6">
             {renderNavbarLinks()}
