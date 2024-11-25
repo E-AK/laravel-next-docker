@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api\Auth;
 
+use App\ApiResource\TokenResource;
+use App\ApiResource\UserNotFoundResource;
 use App\Entity\User;
 use App\Model\SigninDto;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,25 +27,16 @@ class SigninController extends AbstractController
     {
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $request->email]);
 
-        $error = [
-            'message' => 'Неверные логин или пароль',
-            'errors' => [
-                'common' => 'Неверные логин или пароль',
-            ]
-        ];
-
         if (is_null($user)) {
-            return new JsonResponse($error, 401);
+            return new UserNotFoundResource();
         }
 
         if (!$passwordHasher->isPasswordValid($user, $request->password)) {
-            return new JsonResponse($error, 401);
+            return new UserNotFoundResource();
         }
 
         $token = $JWTManager->create($user);
 
-        return new JsonResponse([
-            'data' => ['token' => $token]
-        ]);
+        return new TokenResource($token);
     }
 }

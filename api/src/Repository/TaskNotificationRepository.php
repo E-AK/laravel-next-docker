@@ -16,6 +16,17 @@ class TaskNotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, TaskNotification::class);
     }
 
+    public function findNoSent()
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.exampleField = :val')
+            ->setParameter('val', false)
+            ->andWhere('t.datetime <= :dt')
+            ->setParameter('dt', date('Y-m-d H:i:s'))
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return TaskNotification[] Returns an array of TaskNotification objects
     //     */

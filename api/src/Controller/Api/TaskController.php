@@ -2,11 +2,13 @@
 
 namespace App\Controller\Api;
 
+use App\ApiResource\TaskCollection;
+use App\ApiResource\TaskResource;
 use App\Entity\Task;
 use App\Entity\User;
 use App\Enums\TaskStatus;
 use App\Model\TaskDto;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -14,14 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
-    private const ERROR = [
-        'message' => 'Задача не найдена',
-        'errors' => [
-            'common' => 'Задача не найдена',
-        ]
-    ];
-
-    public function __construct()
+    public function __construct(
+        private readonly TaskService $taskService
+    )
     {
 
     }
@@ -36,121 +33,63 @@ class TaskController extends AbstractController
 
         $tasks = $user->getTasks();
 
-        $data = [
-            'data' => [],
-        ];
-
-        foreach ($tasks as $task) {
-            $data['data'][] = [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ];
-        }
-
-        return new JsonResponse($data);
+        return new TaskCollection($tasks);
     }
 
     #[Route('/api/task/create', methods: ['POST'])]
     public function create(
         #[MapRequestPayload] TaskDto $request,
-        EntityManagerInterface $entityManager,
     ): JsonResponse {
-        $task = new Task();
-
         /**
          * @var User $user
          */
         $user = $this->getUser();
 
-        $task->setText($request->text);
-        $task->setStatus(TaskStatus::TODO);
-        $task->setUser($user);
+        $task = $this->taskService->createTask($request, $user);
 
-        $entityManager->persist($task);
-        $entityManager->flush();
-
-        return new JsonResponse([
-            'data' => [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ],
-        ]);
+        return new TaskResource($task);
     }
 
     #[Route('/api/task/delete/{id}', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $entityManager, Task $task): JsonResponse
+    public function delete(Task $task): JsonResponse
     {
         $this->denyAccessUnlessGranted('delete', $task);
 
-        $entityManager->remove($task);
-        $entityManager->flush();
+        $this->taskService->deleteTask($task);
 
-        return new JsonResponse([
-            'data' => [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ],
-        ]);
+        return new TaskResource($task);
     }
 
     #[Route('/api/task/todo/{id}', methods: ['PATCH'])]
-    public function todo(EntityManagerInterface $entityManager, Task $task): JsonResponse
+    public function todo(Task $task): JsonResponse
     {
-        return $this->changeStatus($task, $entityManager, TaskStatus::TODO);
+        return $this->changeStatus($task, TaskStatus::TODO);
     }
 
     #[Route('/api/task/does/{id}', methods: ['PATCH'])]
-    public function does(EntityManagerInterface $entityManager, Task $task): JsonResponse
+    public function does(Task $task): JsonResponse
     {
-        return $this->changeStatus($task, $entityManager, TaskStatus::DOES);
+        return $this->changeStatus($task,TaskStatus::DOES);
     }
 
     #[Route('/api/task/done/{id}', methods: ['PATCH'])]
-    public function done(EntityManagerInterface $entityManager, Task $task): JsonResponse
+    public function done(Task $task): JsonResponse
     {
-        return $this->changeStatus($task, $entityManager, TaskStatus::DONE);
+        return $this->changeStatus($task, TaskStatus::DONE);
     }
 
     #[Route('/api/task/edit/{id}', methods: ['PATCH'])]
     public function edit(
         #[MapRequestPayload] TaskDto $request,
-        EntityManagerInterface $entityManager,
         Task $task
     ): JsonResponse {
         $this->denyAccessUnlessGranted('edit', $task);
-
-        $task->setText($request->text);
-
-        $entityManager->persist($task);
-        $entityManager->flush();
-
-        return new JsonResponse([
-            'data' => [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ],
-        ]);
+        return $this->taskService->updateTask($task, null, $request->text);
     }
 
-    private function changeStatus(Task $task, EntityManagerInterface $entityManager, TaskStatus $status): JsonResponse
+    private function changeStatus(Task $task, TaskStatus $status): JsonResponse
     {
         $this->denyAccessUnlessGranted('edit', $task);
-
-        $task->setStatus($status);
-
-        $entityManager->persist($task);
-        $entityManager->flush();
-
-        return new JsonResponse([
-            'data' => [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ],
-        ]);
+        return $this->taskService->updateTask($task, $status);
     }
 }

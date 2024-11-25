@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Auth;
 
+use App\ApiResource\TokenResource;
 use App\Entity\User;
 use App\Model\SignupDto;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,8 +48,6 @@ class SignupController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new JsonResponse([
-            'data' => ['token' => $token]
-        ]);
+        return new TokenResource($token);
     }
 }
