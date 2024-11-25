@@ -16,18 +16,9 @@ class GetController extends AbstractController
          */
         $user = $this->getUser();
 
-        if (is_null($user)) {
-            return new JsonResponse([
-                'message' => 'Пользователь не найден',
-                'error' => [
-                    'common' => 'Пользователь не найден',
-                ]
-            ], 403);
-        }
-
         return new JsonResponse([
             'data' => [
-                'login' => $user->getLogin(),
+                'email' => $user->getEmail(),
             ]
         ]);
     }

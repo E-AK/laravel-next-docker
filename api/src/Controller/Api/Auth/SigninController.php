@@ -23,7 +23,7 @@ class SigninController extends AbstractController
         JWTTokenManagerInterface $JWTManager
     ): Response
     {
-        $user = $entityManager->getRepository(User::class)->findOneBy(['login' => $request->login]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $request->email]);
 
         $error = [
             'message' => 'Неверные логин или пароль',

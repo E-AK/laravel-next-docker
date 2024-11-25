@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Enums\TaskStatus;
 use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
@@ -25,6 +26,9 @@ class Task
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\ManyToMany(mappedBy: 'tasks', targetEntity: TaskNotification::class)]
+    private Collection $notifications;
 
     public function getId(): ?int
     {
@@ -65,5 +69,10 @@ class Task
         $this->user = $user;
 
         return $this;
+    }
+
+    public function getNotifications(): ?Collection
+    {
+        return $this->notifications;
     }
 }

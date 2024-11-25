@@ -2,13 +2,14 @@
 
 namespace App\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class SigninDto
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Length(min: 11)]
-        #[Assert\Length(max: 11)]
-        public string $login,
+        #[Assert\Email]
+        public string $email,
 
         #[Assert\NotBlank]
         #[Assert\Length(min: 8)]

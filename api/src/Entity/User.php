@@ -18,7 +18,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string')]
-    private ?string $login = null;
+    private ?string $email = null;
 
     #[ORM\Column(type: 'text')]
     private ?string $password = null;
@@ -37,14 +37,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
-    public function getLogin(): ?string
+    public function getEmail(): ?string
     {
-        return $this->login;
+        return $this->email;
     }
 
-    public function setLogin(string $login): static
+    public function setEmail(string $email): static
     {
-        $this->login = $login;
+        $this->email = $email;
 
         return $this;
     }
@@ -77,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->login;
+        return (string) $this->id;
     }
 
     public function getApiTokens(): Collection

@@ -34,7 +34,7 @@ class SignupController extends AbstractController
         }
 
         $user = new User();
-        $user->setLogin($request->login);
+        $user->setEmail($request->email);
 
         $hashedPassword = $passwordHasher->hashPassword(
             $user,

@@ -21,13 +21,6 @@ class TaskController extends AbstractController
         ]
     ];
 
-    private const NO_USER = [
-        'message' => 'Пользователь не найден',
-        'error' => [
-            'common' => 'Пользователь не найден',
-        ]
-    ];
-
     public function __construct()
     {
 
@@ -40,10 +33,6 @@ class TaskController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-
-        if (is_null($user)) {
-            return new JsonResponse(self::NO_USER, 403);
-        }
 
         $tasks = $user->getTasks();
 
@@ -62,9 +51,6 @@ class TaskController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @throws \JsonException
-     */
     #[Route('/api/task/create', methods: ['POST'])]
     public function create(
         #[MapRequestPayload] TaskDto $request,
@@ -76,10 +62,6 @@ class TaskController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-
-        if (is_null($user)) {
-            return new JsonResponse(self::NO_USER, 403);
-        }
 
         $task->setText($request->text);
         $task->setStatus(TaskStatus::TODO);
@@ -98,14 +80,8 @@ class TaskController extends AbstractController
     }
 
     #[Route('/api/task/delete/{id}', methods: ['DELETE'])]
-    public function delete(EntityManagerInterface $entityManager, int $id): JsonResponse
+    public function delete(EntityManagerInterface $entityManager, Task $task): JsonResponse
     {
-        $task = $entityManager->getRepository(Task::class)->find($id);
-
-        if (is_null($task)) {
-            return new JsonResponse(self::ERROR, 404);
-        }
-
         $this->denyAccessUnlessGranted('delete', $task);
 
         $entityManager->remove($task);
@@ -121,35 +97,29 @@ class TaskController extends AbstractController
     }
 
     #[Route('/api/task/todo/{id}', methods: ['PATCH'])]
-    public function todo(EntityManagerInterface $entityManager, int $id): JsonResponse
+    public function todo(EntityManagerInterface $entityManager, Task $task): JsonResponse
     {
-        return $this->changeStatus($id, $entityManager, TaskStatus::TODO);
+        return $this->changeStatus($task, $entityManager, TaskStatus::TODO);
     }
 
     #[Route('/api/task/does/{id}', methods: ['PATCH'])]
-    public function does(EntityManagerInterface $entityManager, int $id): JsonResponse
+    public function does(EntityManagerInterface $entityManager, Task $task): JsonResponse
     {
-        return $this->changeStatus($id, $entityManager, TaskStatus::DOES);
+        return $this->changeStatus($task, $entityManager, TaskStatus::DOES);
     }
 
     #[Route('/api/task/done/{id}', methods: ['PATCH'])]
-    public function done(EntityManagerInterface $entityManager, int $id): JsonResponse
+    public function done(EntityManagerInterface $entityManager, Task $task): JsonResponse
     {
-        return $this->changeStatus($id, $entityManager, TaskStatus::DONE);
+        return $this->changeStatus($task, $entityManager, TaskStatus::DONE);
     }
 
     #[Route('/api/task/edit/{id}', methods: ['PATCH'])]
     public function edit(
         #[MapRequestPayload] TaskDto $request,
         EntityManagerInterface $entityManager,
-        int $id
+        Task $task
     ): JsonResponse {
-        $task = $entityManager->getRepository(Task::class)->find($id);
-
-        if (is_null($task)) {
-            return new JsonResponse(self::ERROR, 404);
-        }
-
         $this->denyAccessUnlessGranted('edit', $task);
 
         $task->setText($request->text);
@@ -166,14 +136,8 @@ class TaskController extends AbstractController
         ]);
     }
 
-    private function changeStatus(int $id, EntityManagerInterface $entityManager, TaskStatus $status): JsonResponse
+    private function changeStatus(Task $task, EntityManagerInterface $entityManager, TaskStatus $status): JsonResponse
     {
-        $task = $entityManager->getRepository(Task::class)->find($id);
-
-        if (is_null($task)) {
-            return new JsonResponse(self::ERROR, 404);
-        }
-
         $this->denyAccessUnlessGranted('edit', $task);
 
         $task->setStatus($status);
