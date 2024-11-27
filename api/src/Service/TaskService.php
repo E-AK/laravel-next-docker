@@ -9,10 +9,10 @@ use App\Enums\TaskStatus;
 use App\Model\TaskDto;
 use Doctrine\ORM\EntityManagerInterface;
 
-class TaskService
+readonly class TaskService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager
     ) {
 
     }
@@ -27,6 +27,8 @@ class TaskService
 
         $this->entityManager->persist($task);
         $this->entityManager->flush();
+
+        return $task;
     }
 
     public function deleteTask(Task $task): void

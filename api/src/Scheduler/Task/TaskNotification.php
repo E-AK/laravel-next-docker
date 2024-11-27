@@ -6,7 +6,9 @@ use App\Repository\TaskNotificationRepository;
 use App\Service\MailService;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
+#[AsCronTask('* * * * *')]
 readonly class TaskNotification
 {
     public function __construct(

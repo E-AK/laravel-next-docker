@@ -80,7 +80,7 @@ export default function Signup() {
             method: 'post',
             url: `http://localhost:8080/api/auth/signup`,
             data: {
-                login: data.login,
+                email: data.login,
                 password: data.password,
                 repeat_password: data.repeat_password,
             }

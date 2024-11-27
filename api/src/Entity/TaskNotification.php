@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TaskNotificationRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,7 +20,7 @@ class TaskNotification
     private ?Task $task = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $datetime = null;
+    private ?DateTimeInterface $datetime = null;
 
     #[ORM\Column]
     private ?bool $sent = null;
@@ -29,12 +30,12 @@ class TaskNotification
         return $this->id;
     }
 
-    public function getDatetime(): ?\DateTimeInterface
+    public function getDatetime(): ?DateTimeInterface
     {
         return $this->datetime;
     }
 
-    public function setDatetime(\DateTimeInterface $datetime): static
+    public function setDatetime(DateTimeInterface $datetime): static
     {
         $this->datetime = $datetime;
 

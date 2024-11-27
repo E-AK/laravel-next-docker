@@ -67,7 +67,7 @@ export default function Signin() {
             method: 'post',
             url: `http://localhost:8080/api/auth/signin`,
             data: {
-                login: data.login,
+                email: data.login,
                 password: data.password,
             }
         })

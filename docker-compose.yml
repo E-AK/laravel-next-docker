@@ -24,24 +24,6 @@ services:
       - postgres
       - redis
 
-  backend:
-    build:
-      context: ./
-      dockerfile: ./docker/backend/Dockerfile
-    restart: ${DOCKER_RESTART}
-    environment:
-      DOMAIN: ${DOMAIN}
-      BACKEND_ENV: ${BACKEND_ENV}
-      BACKEND_DEBUG: ${BACKEND_DEBUG}
-      BACKEND_AUTH_TOKEN: ${BACKEND_AUTH_TOKEN}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
-    depends_on:
-      - postgres
-      - redis
-
   frontend:
     build:
       context: ../

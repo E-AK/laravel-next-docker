@@ -45,7 +45,7 @@ export default function RootLayout({
         },
       })
           .then(function (response) {
-            setLogin(response?.data?.data?.login);
+            setLogin(response?.data?.data?.email);
           });
     }
 

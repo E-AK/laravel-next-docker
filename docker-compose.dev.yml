@@ -81,3 +81,18 @@ services:
       - /bin/sh
       - -c
       - redis-server --requirepass "${REDIS_PASSWORD}"
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    restart: always
+    environment:
+      MH_AUTH_FILE: /mailhog.auth
+      MH_MAILDIR_PATH: /data
+      MH_STORAGE: maildir
+    volumes:
+      - ./mailhog.auth:/mailhog.auth:ro
+      - ./mailhog:/data:rw
+    ports:
+      - "1025:1025"
+      - "8025:8025"

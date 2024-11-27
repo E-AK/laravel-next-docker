@@ -5,9 +5,12 @@ namespace App\Controller\Api;
 use App\ApiResource\TaskCollection;
 use App\ApiResource\TaskResource;
 use App\Entity\Task;
+use App\Entity\TaskNotification;
 use App\Entity\User;
 use App\Enums\TaskStatus;
+use App\Model\NotificationDTO;
 use App\Model\TaskDto;
+use App\Service\NotificationService;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +20,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class TaskController extends AbstractController
 {
     public function __construct(
-        private readonly TaskService $taskService
+        private readonly TaskService $taskService,
+        private readonly NotificationService $notificationService
     )
     {
 
