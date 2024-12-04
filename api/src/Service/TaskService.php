@@ -52,4 +52,20 @@ readonly class TaskService
 
         return new TaskResource($task);
     }
+
+    public function nextStatus(Task $task)
+    {
+        $status = match ($task->getStatus()) {
+            TaskStatus::TODO => TaskStatus::DOES,
+            TaskStatus::DOES => TaskStatus::DONE,
+            TaskStatus::DONE => TaskStatus::TODO,
+        };
+
+        $task->setStatus($status);
+
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
+
+        return new TaskResource($task);
+    }
 }

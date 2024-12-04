@@ -5,10 +5,8 @@ namespace App\Controller\Api;
 use App\ApiResource\TaskCollection;
 use App\ApiResource\TaskResource;
 use App\Entity\Task;
-use App\Entity\TaskNotification;
 use App\Entity\User;
 use App\Enums\TaskStatus;
-use App\Model\NotificationDTO;
 use App\Model\TaskDto;
 use App\Service\NotificationService;
 use App\Service\TaskService;
@@ -80,6 +78,12 @@ class TaskController extends AbstractController
     public function done(Task $task): JsonResponse
     {
         return $this->changeStatus($task, TaskStatus::DONE);
+    }
+
+    #[Route('/api/task/status/{id}', methods: ['PATCH'])]
+    public function status(Task $task): JsonResponse
+    {
+        return $this->taskService->nextStatus($task);
     }
 
     #[Route('/api/task/edit/{id}', methods: ['PATCH'])]
