@@ -4,19 +4,21 @@ import { Task } from '../model/types';
 
 interface TodoListProps {
     tasks: Task[];
-    onEditTask: (id: string) => (id: string, text: string) => Promise<void>;
+    editTask: (id: string) => (id: string, text: string) => void;
+    onEditTask: (id: string, text: string) => Promise<void>;
     onDeleteTask: (id: string) => void;
     onStatusChange: (id: string) => void;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ tasks, onEditTask, onDeleteTask, onStatusChange }) => {
+export const TodoList: React.FC<TodoListProps> = ({ tasks, editTask, onEditTask, onDeleteTask, onStatusChange }) => {
     return (
         <ul style={{ listStyle: 'none', padding: 0 }}>
             {tasks?.map((task) => (
                 <TodoItem
                     key={task.id}
                     task={task}
-                    onEdit={() => onEditTask(task.id)}
+                    editTask={ editTask }
+                    onEdit={() => onEditTask(task.id, task.text)}
                     onDelete={() => onDeleteTask(task.id)}
                     onStatusChange={() => onStatusChange(task.id)}
                 />

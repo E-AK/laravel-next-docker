@@ -5,10 +5,11 @@ export interface Task {
     text: string;
     status: TaskStatus;
     isEditing?: boolean;
+    notifications: Notification[]
 }
 
 export interface Notification {
     id?: string;
     taskId: string;
-    time: string;
+    datetime: string;
 }

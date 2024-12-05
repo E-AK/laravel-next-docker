@@ -5,7 +5,7 @@ import { AddTaskForm } from '@/features/todo/ui/AddTaskForm';
 import { useTasks } from '@/features/todo/model/hooks';
 
 export default function TodoPage() {
-    const { tasks, handleAddTask, handleDeleteTask, handleEditTask, handleStatusChange } = useTasks();
+    const { tasks, handleAddTask, editTask, handleDeleteTask, handleEditTask, handleStatusChange } = useTasks();
 
     return (
         <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
@@ -13,6 +13,7 @@ export default function TodoPage() {
             <AddTaskForm onAddTask={handleAddTask} />
             <TodoList
                 tasks={tasks}
+                editTask={editTask}
                 onEditTask={handleEditTask}
                 onDeleteTask={handleDeleteTask}
                 onStatusChange={handleStatusChange}

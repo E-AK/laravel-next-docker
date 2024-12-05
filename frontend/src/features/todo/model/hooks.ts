@@ -1,26 +1,43 @@
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import {
-    fetchTasks,
-    createTask,
-    updateTask,
-    deleteTask,
-    updateTaskStatus,
     createNotification,
+    createTask,
+    deleteNotification,
+    deleteTask,
+    fetchTasks,
     updateNotification,
-    deleteNotification
+    updateTask,
+    updateTaskStatus
 } from './api';
-import { Task } from './types';
+import {Notification, Task} from './types';
 
 export const useTasks = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        fetchTasks().then(setTasks);
+        fetchTasks().then(tasks => {
+            tasks.forEach(task => {
+                task.notifications.forEach(notification => {
+
+                })
+            })
+
+            setTasks(tasks)
+        });
     }, []);
 
     const handleAddTask = async (text: string) => {
         const newTask = await createTask(text);
         setTasks((prev: Task[]) => [...prev, newTask]);
+    };
+
+    const editTask = (id: string, text: string) => {
+        debugger
+        setTasks(prevTasks => {
+            return prevTasks.map(task =>
+                task.id === id ? {...task, text: text} : task
+            );
+        });
     };
 
     const handleEditTask = async (id: string, text: string) => {
@@ -40,11 +57,15 @@ export const useTasks = () => {
         );
     };
 
-    return { tasks, handleAddTask, handleEditTask, handleDeleteTask, handleStatusChange };
+    return { tasks, handleAddTask, editTask, handleEditTask, handleDeleteTask, handleStatusChange };
 };
 
 export const useNotifications = (taskId: string) => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    const addNotification = (notification: Notification) => {
+        setNotifications((prev) => [...prev, notification]);
+    };
 
     const handleAddNotification = async (datetime: string) => {
         const newNotification = await createNotification({ taskId, datetime });
@@ -63,5 +84,5 @@ export const useNotifications = (taskId: string) => {
         setNotifications((prev) => prev.filter((notification) => notification.id !== id));
     };
 
-    return { notifications, handleAddNotification, handleEditNotification, handleDeleteNotification };
+    return { notifications, addNotification, handleAddNotification, handleEditNotification, handleDeleteNotification };
 };
