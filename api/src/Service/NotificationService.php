@@ -5,26 +5,35 @@ namespace App\Service;
 use App\ApiResource\NotificationResource;
 use App\Entity\Task;
 use App\Entity\TaskNotification;
+use App\Message\SendEmailMessage;
 use App\Model\NotificationDTO;
 use App\Repository\TaskRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class NotificationService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
         private TaskRepository $taskRepository,
+        private MessageBusInterface $bus,
     ) {
 
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
+     * @throws ExceptionInterface
      */
     public function createNotification(NotificationDTO $request): NotificationResource
     {
+        $message = new SendEmailMessage();
+        $this->bus->dispatch($message);
+
         /**
          * @var Task $task
          */

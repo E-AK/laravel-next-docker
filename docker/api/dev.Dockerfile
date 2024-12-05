@@ -10,11 +10,14 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libpcre3 \
     libpcre3-dev \
+    librabbitmq-dev \
+    libssl-dev \
     unzip \
     supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install ctype iconv simplexml pdo pdo_pgsql pgsql opcache
+    && docker-php-ext-install ctype iconv simplexml pdo pdo_pgsql pgsql opcache \
+    && pecl install amqp && docker-php-ext-enable amqp
 
 COPY ./api/docker/local.ini /usr/local/etc/php/conf.d/local.ini
 

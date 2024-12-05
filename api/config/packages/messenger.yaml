@@ -5,7 +5,13 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            async:
+                dsn: '%env(RABBITMQ_URL)%'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    multiplier: 2
+                    max_delay: 3000
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 

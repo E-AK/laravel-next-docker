@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     libpcre3 libpcre3-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install ctype iconv simplexml tokenizer pdo pdo_pgsql pgsql opcache
+    && docker-php-ext-install ctype iconv simplexml tokenizer pdo pdo_pgsql pgsql opcache ext-amqp
 
 COPY ./backend/docker/local.ini /usr/local/etc/php/conf.d/local.ini
 
