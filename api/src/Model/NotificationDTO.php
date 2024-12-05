@@ -13,8 +13,7 @@ class NotificationDTO
         public int $taskId,
 
         #[Assert\NotBlank]
-        #[Assert\Type(DateTimeInterface::class)]
-        public DateTimeInterface $notification,
+        public DateTimeInterface $datetime,
     ) {
 
     }

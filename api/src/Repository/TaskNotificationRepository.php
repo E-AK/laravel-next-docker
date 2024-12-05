@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\TaskNotification;
+use DateTime;
+use DateTimeZone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,13 +18,22 @@ class TaskNotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, TaskNotification::class);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function findNoSent()
     {
+        $timezone = new DateTimeZone('Europe/Samara');
+        $currentDateTime = new DateTime(timezone: $timezone);
+
+
+        echo $currentDateTime->format('Y-m-d H:i:s') . "\n";
+
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+            ->andWhere('t.sent = :val')
             ->setParameter('val', false)
-            ->andWhere('t.datetime <= :dt')
-            ->setParameter('dt', date('Y-m-d H:i:s'))
+            ->andWhere('t.datetime <= :currentDateTime')
+            ->setParameter('currentDateTime', $currentDateTime)
             ->getQuery()
             ->getResult();
     }

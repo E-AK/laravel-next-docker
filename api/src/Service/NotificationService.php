@@ -7,6 +7,7 @@ use App\Entity\Task;
 use App\Entity\TaskNotification;
 use App\Model\NotificationDTO;
 use App\Repository\TaskRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -19,6 +20,9 @@ readonly class NotificationService
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function createNotification(NotificationDTO $request): NotificationResource
     {
         /**
@@ -32,7 +36,7 @@ readonly class NotificationService
 
         $notification = new TaskNotification();
 
-        $notification->setDatetime($request->notification);
+        $notification->setDatetime($request->datetime);
         $notification->setTask($task);
         $notification->setSent(false);
 
@@ -51,7 +55,7 @@ readonly class NotificationService
 
     public function updateNotification(NotificationDTO $request, TaskNotification $notification): NotificationResource
     {
-        $notification->setDatetime($request->notification);
+        $notification->setDatetime($request->datetime);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
