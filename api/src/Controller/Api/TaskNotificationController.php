@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Task;
 use App\Entity\TaskNotification;
 use App\Model\NotificationDTO;
 use App\Service\NotificationService;

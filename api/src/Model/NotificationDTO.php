@@ -13,7 +13,10 @@ class NotificationDTO
         public int $taskId,
 
         #[Assert\NotBlank]
-        public DateTimeInterface $datetime,
+        #[Assert\Regex(
+            pattern: '/^[A-Za-z]{3}, \d{2} [A-Za-z]{3} \d{4} \d{2}:\d{2}:\d{2} GMT$/'
+        )]
+        public string $datetime,
     ) {
 
     }

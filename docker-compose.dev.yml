@@ -68,3 +68,41 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+
+  telegraf:
+    image: telegraf:1.31.3-alpine
+    restart: ${DOCKER_RESTART}
+    environment:
+      INFLUX_HOST: ${INFLUX_HOST}
+      INFLUXDB_DB: ${INFLUXDB_DB}
+      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+
+  influxdb:
+    image: influxdb:1.11.8-alpine
+    restart: ${DOCKER_RESTART}
+    environment:
+      INFLUXDB_DB: ${INFLUXDB_DB}
+      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
+      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb
+      - ./influxdb/config:/etc/influxdb
+
+  grafana:
+    image: grafana/grafana-enterprise
+    restart: ${DOCKER_RESTART}
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./grafana/var/lib/grafana:/var/lib/grafana
+      - ./grafana/usr/share/grafana/conf/provisioning/datasources:/usr/share/grafana/conf/provisioning/datasources

@@ -9,11 +9,14 @@ use App\Message\SendEmailMessage;
 use App\Model\NotificationDTO;
 use App\Repository\TaskRepository;
 use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use RuntimeException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 readonly class NotificationService
 {
@@ -31,8 +34,17 @@ readonly class NotificationService
      */
     public function createNotification(NotificationDTO $request): NotificationResource
     {
-        $message = new SendEmailMessage();
-        $this->bus->dispatch($message);
+        $timeZone = new DateTimeZone('UTC');
+
+        $now = new DateTime(timezone: $timeZone);
+
+        if (new DateTime($request->datetime, $timeZone) < $now) {
+            throw new RuntimeException(
+                'Вы не можете отправить уведомление в прошлом ('
+                . json_encode(new DateTime($request->datetime, $timeZone)) . ') ('
+                . json_encode($now) . ')'
+            );
+        }
 
         /**
          * @var Task $task
@@ -45,12 +57,19 @@ readonly class NotificationService
 
         $notification = new TaskNotification();
 
-        $notification->setDatetime($request->datetime);
+        $notification->setDatetime(new DateTime($request->datetime, $timeZone));
         $notification->setTask($task);
         $notification->setSent(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+
+        $now = new DateTime(timezone: $timeZone);
+        $delay = max(0, $notification->getDatetime()
+                    ?->getTimestamp() - $now->getTimestamp()) * 1000;
+
+        $message = new SendEmailMessage($notification);
+        $this->bus->dispatch($message, [new DelayStamp($delay)]);
 
         return new NotificationResource($notification);
     }
@@ -62,9 +81,13 @@ readonly class NotificationService
         return new NotificationResource($notification);
     }
 
+    /**
+     * @throws Exception
+     */
     public function updateNotification(NotificationDTO $request, TaskNotification $notification): NotificationResource
     {
-        $notification->setDatetime($request->datetime);
+        $timeZone = new DateTimeZone('UTC');
+        $notification->setDatetime(new DateTime($request->datetime, $timeZone));
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNotifications } from '../model/hooks';
 import {Task} from "@/features/todo/model/types";
+import moment from "moment";
 
 interface TaskNotificationsProps {
     task: Task;
@@ -9,16 +10,7 @@ interface TaskNotificationsProps {
 
 const formatDatetime = (datetime: string): string => {
     const date = new Date(datetime);
-    const pad = (num: number) => String(num).padStart(2, '0');
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    const seconds = pad(date.getSeconds());
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return date.toUTCString();
 };
 
 export const TaskNotifications: React.FC<TaskNotificationsProps> = ({ task, onClose }) => {
@@ -34,7 +26,7 @@ export const TaskNotifications: React.FC<TaskNotificationsProps> = ({ task, onCl
 
         loaded = true;
 
-        task.notifications.forEach(notification => {
+        task.notifications?.forEach(notification => {
             addNotification(notification)
         })
     }, []);
@@ -86,7 +78,7 @@ export const TaskNotifications: React.FC<TaskNotificationsProps> = ({ task, onCl
                         >
                             <input
                                 type="datetime-local"
-                                value={notif.datetime.slice(0, 16)} // Приводим строку к формату datetime-local (без секунд)
+                                value={moment(notif.datetime).local().format('YYYY-MM-DD HH:mm:ss')}
                                 onChange={(e) => handleUpdate(notif.id, e.target.value)}
                                 style={{ marginRight: '10px', flex: 1 }}
                             />
