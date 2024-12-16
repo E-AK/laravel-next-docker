@@ -78,7 +78,7 @@ export const TaskNotifications: React.FC<TaskNotificationsProps> = ({ task, onCl
                         >
                             <input
                                 type="datetime-local"
-                                value={moment(notif.datetime).local().format('YYYY-MM-DD HH:mm:ss')}
+                                value={moment.utc(notif.datetime).local().format('YYYY-MM-DD HH:mm:ss')}
                                 onChange={(e) => handleUpdate(notif.id, e.target.value)}
                                 style={{ marginRight: '10px', flex: 1 }}
                             />
