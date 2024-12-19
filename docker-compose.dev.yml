@@ -53,9 +53,6 @@ services:
 
   rabbitmq:
     image: rabbitmq:4.0.4-management-alpine
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     restart: always
     ports:
       - "5672:5672"
@@ -80,8 +77,6 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
