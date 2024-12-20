@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nginx:
     build:
@@ -20,12 +18,27 @@ services:
     build:
       context: ./
       dockerfile: ./docker/api/dev.Dockerfile
+      args:
+        APP_SOURCE: api
     restart: ${DOCKER_RESTART}
     depends_on:
       - postgres
       - rabbitmq
     volumes:
       - ./api:/var/www/app
+
+  user_service:
+    build:
+      context: ./
+      dockerfile: ./docker/api/dev.Dockerfile
+      args:
+        APP_SOURCE: user_service
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - postgres_user_service
+      - rabbitmq
+    volumes:
+      - ./user_service:/var/www/app
 
   frontend:
     build:
@@ -46,6 +59,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres/var/lib/postgresql:/var/lib/postgresql
+
+  postgres_user_service:
+    image: postgres:17.0-alpine3.20
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_USER_SERVICE}
+      POSTGRES_USER: ${POSTGRES_USER_USER_SERVICE}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_USER_SERVICE}
     ports:
       - "5432:5432"
     volumes:

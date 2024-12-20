@@ -1,5 +1,7 @@
 FROM php:8.2.25-fpm-bullseye
 
+ARG APP_SOURCE=api
+
 RUN apt-get update && apt-get install -y \
     libfreetype-dev \
     libjpeg62-turbo-dev \
@@ -19,8 +21,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install ctype iconv simplexml pdo pdo_pgsql pgsql opcache \
     && pecl install amqp && docker-php-ext-enable amqp
 
-COPY ./api/docker/local.ini /usr/local/etc/php/conf.d/local.ini
-COPY ./api/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./docker/api/local.ini /usr/local/etc/php/conf.d/local.ini
+COPY ./docker/api/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./docker/api/entrypoint.sh /var/www/app/entrypoint.sh
 
 RUN touch /var/log/supervisor/system.log && \
     touch /var/log/supervisor/fpm-out.log && \
@@ -32,7 +35,7 @@ RUN touch /var/log/supervisor/system.log && \
     chown www-data:www-data -R /var/log/supervisor/* && \
     chmod -R 777 /var/log/supervisor/*
 
-COPY ./api /var/www/app
+COPY ./${APP_SOURCE} /var/www/app
 WORKDIR /var/www/app
 
 COPY --from=composer:2.6.5 /usr/bin/composer /usr/local/bin/composer
@@ -45,4 +48,4 @@ USER www-data
 
 EXPOSE 8000
 
-ENTRYPOINT ["/bin/sh", "/var/www/app/docker/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/var/www/app/entrypoint.sh"]
