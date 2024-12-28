@@ -4,7 +4,7 @@ namespace App\Controller\Api\Auth;
 
 use App\ApiResource\TokenResource;
 use App\Entity\User;
-use App\Model\SignupDto;
+use App\DTO\SignUpDTO;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,11 +13,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
-class SignupController extends AbstractController
+class SignUpController extends AbstractController
 {
     #[Route('/api/auth/signup', methods: ['POST'])]
-    public function signup(
-        #[MapRequestPayload] SignupDto $request,
+    public function execute(
+        #[MapRequestPayload] SignUpDTO $request,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher,
         JWTTokenManagerInterface $JWTManager

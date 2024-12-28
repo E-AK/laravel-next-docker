@@ -3,7 +3,7 @@
 namespace App\ApiResource;
 
 use App\Entity\Task;
-use App\Entity\TaskNotification;
+use App\Entity\Notification;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Doctrine\Common\Collections\Collection;
@@ -26,7 +26,7 @@ class TaskCollection extends JsonResponse
             $notifications = [];
 
             /**
-             * @var TaskNotification $notification
+             * @var Notification $notification
              */
             foreach ($task->getNotifications() as $notification) {
                 $notifications[] = [

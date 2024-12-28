@@ -8,7 +8,6 @@ use App\Entity\Task;
 use App\Entity\User;
 use App\Enums\TaskStatus;
 use App\Model\TaskDto;
-use App\Service\NotificationService;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

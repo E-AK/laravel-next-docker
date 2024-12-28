@@ -3,14 +3,14 @@
 namespace App\ApiResource;
 
 use App\Entity\Task;
-use App\Entity\TaskNotification;
+use App\Entity\Notification;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class NotificationResource extends JsonResponse
 {
     public function __construct(
-        TaskNotification $notification,
+        Notification $notification,
         int              $status = 200,
         array            $headers = [],
         bool             $json = false

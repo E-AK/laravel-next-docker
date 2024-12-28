@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./docker/api/local.ini /usr/local/etc/php/conf.d/local.ini
 COPY ./docker/api/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./docker/api/entrypoint.sh /var/www/app/entrypoint.sh
+COPY ./docker/api/entrypoint.sh /var/www/entrypoint.sh
 
 RUN touch /var/log/supervisor/system.log && \
     touch /var/log/supervisor/fpm-out.log && \
@@ -48,4 +48,4 @@ USER www-data
 
 EXPOSE 8000
 
-ENTRYPOINT ["/bin/sh", "/var/www/app/entrypoint.sh"]
+ENTRYPOINT ["/bin/sh", "/var/www/entrypoint.sh"]

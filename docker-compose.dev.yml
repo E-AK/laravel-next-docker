@@ -30,15 +30,39 @@ services:
   user_service:
     build:
       context: ./
-      dockerfile: ./docker/api/dev.Dockerfile
-      args:
-        APP_SOURCE: user_service
+      dockerfile: ./docker/user_service/dev.Dockerfile
     restart: ${DOCKER_RESTART}
-    depends_on:
-      - postgres_user_service
-      - rabbitmq
+#    depends_on:
+#      - pgpool
+#      - rabbitmq
     volumes:
       - ./user_service:/var/www/app
+
+  task_service:
+    build:
+      context: ./
+      dockerfile: ./docker/api/dev.Dockerfile
+      args:
+        APP_SOURCE: task_service
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - pgpool
+      - rabbitmq
+    volumes:
+      - ./task_service:/var/www/app
+
+  notification_service:
+    build:
+      context: ./
+      dockerfile: ./docker/api/dev.Dockerfile
+      args:
+        APP_SOURCE: notification_service
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - pgpool
+      - rabbitmq
+    volumes:
+      - ./notification_service:/var/www/app
 
   frontend:
     build:
@@ -69,12 +93,53 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB_USER_SERVICE}
-      POSTGRES_USER: ${POSTGRES_USER_USER_SERVICE}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_USER_SERVICE}
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./docker/postgres/var/lib/postgresql:/var/lib/postgresql
+      - ./docker/postgres_user_service/var/lib/postgresql:/var/lib/postgresql
+
+  postgres_task_service:
+    image: postgres:17.0-alpine3.20
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_TASK_SERVICE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./docker/postgres_task_service/var/lib/postgresql:/var/lib/postgresql
+
+  postgres_notification_service:
+    image: postgres:17.0-alpine3.20
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NOTIFICATION_SERVICE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./docker/postgres_notification_service/var/lib/postgresql:/var/lib/postgresql
+
+  pgpool:
+    image: bitnami/pgpool:4.5.5
+    ports:
+      - 5432:5432
+    environment:
+      PGPOOL_BACKEND_NODES: 0:postgres_user_service:5432,1:postgres_task_service:5432,2:postgres_notification_service:5432
+      PGPOOL_SR_CHECK_USER: ${POSTGRES_USER}
+      PGPOOL_SR_CHECK_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPOOL_ENABLE_LDAP: no
+      PGPOOL_POSTGRES_USERNAME: ${POSTGRES_USER}
+      PGPOOL_POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPOOL_ADMIN_USERNAME: admin
+      PGPOOL_ADMIN_PASSWORD: adminpassword
+    depends_on:
+      - postgres_user_service
+      - postgres_task_service
+      - postgres_notification_service
+    healthcheck:
+      test: [ "CMD", "/opt/bitnami/scripts/pgpool/healthcheck.sh" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:4.0.4-management-alpine

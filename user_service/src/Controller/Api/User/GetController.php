@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class GetController extends AbstractController
 {
     #[Route('/api/user/me', methods: ['GET'])]
-    public function me(): JsonResponse {
+    public function execute(): JsonResponse {
         /**
          * @var User $user
          */

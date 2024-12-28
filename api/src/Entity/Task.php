@@ -27,7 +27,7 @@ class Task
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'task', targetEntity: TaskNotification::class)]
+    #[ORM\OneToMany(mappedBy: 'task', targetEntity: Notification::class)]
     private Collection $notifications;
 
     public function getId(): ?int

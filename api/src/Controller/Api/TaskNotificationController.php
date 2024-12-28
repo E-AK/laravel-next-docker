@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\TaskNotification;
+use App\Entity\Notification;
 use App\Model\NotificationDTO;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class TaskNotificationController extends AbstractController
 
     #[Route('/api/task/notification/{id}', methods: ['DELETE'])]
     public function deleteNotification(
-        TaskNotification $taskNotification
+        Notification $taskNotification
     ) {
         return $this->notificationService->deleteNotification($taskNotification);
     }
@@ -36,7 +36,7 @@ class TaskNotificationController extends AbstractController
     public function updateNotification(
         #[MapRequestPayload]
         NotificationDTO $request,
-        TaskNotification $task
+        Notification $task
     ) {
         return $this->notificationService->updateNotification($request, $task);
     }
