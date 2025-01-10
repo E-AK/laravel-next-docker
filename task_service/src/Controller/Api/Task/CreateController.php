@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Controller\Api\Tasks;
+namespace App\Controller\Api\Task;
 
 use App\ApiResource\TaskResource;
-use App\Model\TaskDto;
+use App\DTO\TaskDTO;
+use App\Entity\User;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -21,14 +21,12 @@ class CreateController extends AbstractController
     #[Route('/api/task/create', methods: ['POST'])]
     public function execute(
         #[MapRequestPayload] TaskDto $request,
-    ): JsonResponse {
+    ): TaskResource {
         /**
          * @var User $user
          */
         $user = $this->getUser();
 
-        $task = $this->taskService->createTask($request, $user);
-
-        return new TaskResource($task);
+        return $this->taskService->create($request, $user->getId());
     }
 }

@@ -6,15 +6,18 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Enums\TaskStatus;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ApiResource]
 class Task
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private ?Uuid $id;
 
     #[ORM\Column(length: 1023)]
     private ?string $text = null;
@@ -22,10 +25,10 @@ class Task
     #[ORM\Column(type: 'string', enumType: TaskStatus::class)]
     private ?TaskStatus $status = null;
 
-    #[ORM\Column(type: 'integer')]
-    private ?int $user_id = null;
+    #[ORM\Column(type: UuidType::NAME)]
+    private ?Uuid $user_id = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -50,6 +53,18 @@ class Task
     public function setStatus(TaskStatus $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUserId(): ?Uuid
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?Uuid $user_id): static
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

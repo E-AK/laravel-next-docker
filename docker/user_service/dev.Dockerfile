@@ -25,9 +25,6 @@ RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql && docker-php-ext-enable 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
     && usermod -s /bin/bash www-data
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
-COPY --from=composer:2.8.2 /usr/bin/composer /usr/bin/composer
-
 COPY ./docker/user_service/entrypoint.sh /var/www/entrypoint.sh
 COPY ./docker/user_service/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -38,9 +35,9 @@ RUN mkdir -p /var/log/supervisor /var/www/app \
 COPY ./user_service/ ./
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-scripts
-
-RUN ./vendor/bin/rr get-binary -l ./bin
+COPY --from=composer:2.8.2 /usr/bin/composer /usr/bin/composer
+RUN composer install
+RUN ./vendor/bin/rr get-binary --location /usr/local/bin
 
 USER www-data
 

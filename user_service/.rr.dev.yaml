@@ -6,9 +6,21 @@ server:
     - APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
 
 grpc:
-  listen: "tcp://0.0.0.0:9001"
+  listen: "tcp://:9001"
+
   proto:
-    - "proto/shortener.proto"
+    - "proto/servers/auth.proto"
+
+http:
+  address: 0.0.0.0:8080
+  middleware: [ "static", "gzip" ]
+  pool:
+    debug: true
+  uploads:
+    forbid: [ ".php", ".exe", ".bat" ]
+  static:
+    dir: "public"
+    forbid: [ ".php", ".htaccess" ]
 
 logs:
   mode: development

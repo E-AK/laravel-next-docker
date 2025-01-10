@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api\Tasks;
+namespace App\Controller\Api\Task;
 
 use App\Entity\Task;
 use App\Service\TaskService;

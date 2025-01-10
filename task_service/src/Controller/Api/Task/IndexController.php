@@ -1,23 +1,29 @@
 <?php
 
-namespace App\Controller\Api\Tasks;
+namespace App\Controller\Api\Task;
 
 use App\ApiResource\TaskCollection;
+use App\Entity\User;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 class IndexController extends AbstractController
 {
+    public function __construct(
+        private readonly TaskRepository $taskRepository
+    ) {
+    }
+
     #[Route('/api/task/index', methods: ['GET'])]
-    public function execute(): JsonResponse
+    public function execute(): TaskCollection
     {
         /**
-         * TODO: get user
+         * @var User $user
          */
         $user = $this->getUser();
 
-        $tasks = $user->getTasks();
+        $tasks = $this->taskRepository->findByUserId($user->getId());
 
         return new TaskCollection($tasks);
     }

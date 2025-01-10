@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Api\Tasks;
+namespace App\Controller\Api\Task;
 
+use App\DTO\TaskDTO;
 use App\Entity\Task;
-use App\Model\TaskDto;
 use App\Service\TaskService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,7 +20,7 @@ class EditController extends AbstractController
 
     #[Route('/api/task/edit/{id}', methods: ['PATCH'])]
     public function execute(
-        #[MapRequestPayload] TaskDto $request,
+        #[MapRequestPayload] TaskDTO $request,
         Task $task
     ): JsonResponse {
         $this->denyAccessUnlessGranted('edit', $task);

@@ -3,11 +3,11 @@
 namespace App\Service;
 
 use App\ApiResource\TaskResource;
+use App\DTO\TaskDTO;
 use App\Entity\Task;
-use App\Entity\User;
 use App\Enums\TaskStatus;
-use App\Model\TaskDto;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 readonly class TaskService
 {
@@ -17,18 +17,18 @@ readonly class TaskService
 
     }
 
-    public function createTask(TaskDto $request, User $user): Task
+    public function create(TaskDTO $request, string $userId): TaskResource
     {
         $task = new Task();
 
         $task->setText($request->text);
         $task->setStatus(TaskStatus::TODO);
-        $task->setUser($user);
+        $task->setUserId(new Uuid($userId));
 
         $this->entityManager->persist($task);
         $this->entityManager->flush();
 
-        return $task;
+        return new TaskResource($task);
     }
 
     public function deleteTask(Task $task): void

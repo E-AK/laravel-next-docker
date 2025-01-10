@@ -48,6 +48,6 @@ class SignUpController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return new TokenResource($token);
+        return new JsonResponse(['data' => ['token' => $token]]);
     }
 }

@@ -2491,3 +2491,338 @@
 2024-12-23 09:48:16,407 INFO exited: queue (exit status 1; not expected)
 2024-12-23 09:48:17,410 INFO spawned: 'queue' with pid 1607
 2024-12-23 09:48:18,414 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-12-27 11:55:27,888 INFO supervisord started with pid 19
+2024-12-27 11:55:28,920 INFO spawned: 'queue' with pid 20
+2024-12-27 11:55:28,922 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-27 11:55:29,011 WARN exited: queue (exit status 255; not expected)
+2024-12-27 11:55:30,014 INFO spawned: 'queue' with pid 24
+2024-12-27 11:55:30,015 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-27 11:55:30,112 WARN exited: queue (exit status 255; not expected)
+2024-12-27 11:55:32,116 INFO spawned: 'queue' with pid 28
+2024-12-27 11:55:32,116 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-27 11:55:32,173 WARN exited: queue (exit status 255; not expected)
+2024-12-27 11:55:35,179 INFO spawned: 'queue' with pid 32
+2024-12-27 11:55:35,180 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-27 11:55:35,180 INFO gave up: rr entered FATAL state, too many start retries too quickly
+2024-12-27 11:55:35,252 WARN exited: queue (exit status 255; not expected)
+2024-12-27 11:55:36,253 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2024-12-28 07:35:41,632 INFO supervisord started with pid 19
+2024-12-28 07:35:42,635 INFO spawned: 'queue' with pid 20
+2024-12-28 07:35:42,636 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-28 07:35:42,678 WARN exited: queue (exit status 255; not expected)
+2024-12-28 07:35:43,681 INFO spawned: 'queue' with pid 24
+2024-12-28 07:35:43,682 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-28 07:35:43,731 WARN exited: queue (exit status 255; not expected)
+2024-12-28 07:35:45,735 INFO spawned: 'queue' with pid 28
+2024-12-28 07:35:45,736 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-28 07:35:45,790 WARN exited: queue (exit status 255; not expected)
+2024-12-28 07:35:48,795 INFO spawned: 'queue' with pid 32
+2024-12-28 07:35:48,796 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2024-12-28 07:35:48,797 INFO gave up: rr entered FATAL state, too many start retries too quickly
+2024-12-28 07:35:48,855 WARN exited: queue (exit status 255; not expected)
+2024-12-28 07:35:49,859 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 11:27:51,120 INFO supervisord started with pid 9
+2025-01-09 11:27:52,160 INFO spawned: 'queue' with pid 20
+2025-01-09 11:27:52,162 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2025-01-09 11:27:52,292 WARN exited: queue (exit status 1; not expected)
+2025-01-09 11:27:53,294 INFO spawned: 'queue' with pid 26
+2025-01-09 11:27:53,295 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2025-01-09 11:27:53,433 WARN exited: queue (exit status 1; not expected)
+2025-01-09 11:27:55,437 INFO spawned: 'queue' with pid 32
+2025-01-09 11:27:55,437 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2025-01-09 11:27:55,551 WARN exited: queue (exit status 1; not expected)
+2025-01-09 11:27:58,554 INFO spawned: 'queue' with pid 38
+2025-01-09 11:27:58,555 INFO spawnerr: can't find command '/var/www/app/bin/rr'
+2025-01-09 11:27:58,555 INFO gave up: rr entered FATAL state, too many start retries too quickly
+2025-01-09 11:27:58,675 WARN exited: queue (exit status 1; not expected)
+2025-01-09 11:27:59,676 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:17:47,162 INFO supervisord started with pid 9
+2025-01-09 12:17:48,164 INFO spawned: 'queue' with pid 20
+2025-01-09 12:17:48,165 INFO spawned: 'rr' with pid 21
+2025-01-09 12:17:49,260 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:49,260 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:49,260 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:17:50,262 INFO spawned: 'queue' with pid 34
+2025-01-09 12:17:51,355 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:51,355 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:17:52,357 INFO spawned: 'queue' with pid 40
+2025-01-09 12:17:53,446 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:53,446 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:17:54,450 INFO spawned: 'queue' with pid 46
+2025-01-09 12:17:55,880 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:55,880 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:17:56,882 INFO spawned: 'queue' with pid 52
+2025-01-09 12:17:57,884 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:17:58,679 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:17:59,680 INFO spawned: 'queue' with pid 58
+2025-01-09 12:17:59,909 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:18:00,911 INFO spawned: 'queue' with pid 64
+2025-01-09 12:18:01,039 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:18:03,911 INFO spawned: 'queue' with pid 70
+2025-01-09 12:18:04,007 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:18:07,011 INFO spawned: 'queue' with pid 76
+2025-01-09 12:18:07,106 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:18:08,107 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:21:10,758 INFO supervisord started with pid 8
+2025-01-09 12:21:11,760 INFO spawned: 'queue' with pid 19
+2025-01-09 12:21:11,761 INFO spawned: 'rr' with pid 20
+2025-01-09 12:21:14,771 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:14,771 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:14,771 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:15,772 INFO spawned: 'queue' with pid 34
+2025-01-09 12:21:16,895 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:16,895 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:17,898 INFO spawned: 'queue' with pid 40
+2025-01-09 12:21:18,899 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:19,723 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:20,725 INFO spawned: 'queue' with pid 46
+2025-01-09 12:21:20,933 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:21,934 INFO spawned: 'queue' with pid 52
+2025-01-09 12:21:23,063 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:23,064 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:24,065 INFO spawned: 'queue' with pid 58
+2025-01-09 12:21:24,171 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:25,173 INFO spawned: 'queue' with pid 64
+2025-01-09 12:21:26,275 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:26,275 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:27,277 INFO spawned: 'queue' with pid 70
+2025-01-09 12:21:27,475 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:28,476 INFO spawned: 'queue' with pid 76
+2025-01-09 12:21:29,706 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:29,707 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:30,709 INFO spawned: 'queue' with pid 82
+2025-01-09 12:21:30,912 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:31,914 INFO spawned: 'queue' with pid 88
+2025-01-09 12:21:33,149 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:33,149 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:34,151 INFO spawned: 'queue' with pid 94
+2025-01-09 12:21:35,511 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:35,511 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:36,513 INFO spawned: 'queue' with pid 100
+2025-01-09 12:21:36,859 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:37,860 INFO spawned: 'queue' with pid 106
+2025-01-09 12:21:39,094 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:39,094 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:40,097 INFO spawned: 'queue' with pid 112
+2025-01-09 12:21:41,358 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:41,358 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:42,359 INFO spawned: 'queue' with pid 118
+2025-01-09 12:21:47,687 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:47,687 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:47,688 INFO spawned: 'queue' with pid 124
+2025-01-09 12:21:48,800 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:48,801 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:49,803 INFO spawned: 'queue' with pid 130
+2025-01-09 12:21:51,086 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:51,086 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:52,088 INFO spawned: 'queue' with pid 136
+2025-01-09 12:21:53,183 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:53,183 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:54,185 INFO spawned: 'queue' with pid 142
+2025-01-09 12:21:55,318 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:55,319 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:56,320 INFO spawned: 'queue' with pid 148
+2025-01-09 12:21:56,477 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:57,478 INFO spawned: 'queue' with pid 154
+2025-01-09 12:21:58,729 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:21:58,729 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:21:59,731 INFO spawned: 'queue' with pid 160
+2025-01-09 12:21:59,979 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:22:00,982 INFO spawned: 'queue' with pid 166
+2025-01-09 12:22:01,270 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:22:03,273 INFO spawned: 'queue' with pid 172
+2025-01-09 12:22:03,715 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:22:06,719 INFO spawned: 'queue' with pid 178
+2025-01-09 12:22:06,830 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:22:07,832 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:24:16,477 INFO supervisord started with pid 9
+2025-01-09 12:24:17,514 INFO spawned: 'queue' with pid 20
+2025-01-09 12:24:17,516 INFO spawned: 'rr' with pid 21
+2025-01-09 12:24:17,914 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:18,916 INFO spawned: 'queue' with pid 33
+2025-01-09 12:24:18,916 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:20,074 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:20,075 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:21,079 INFO spawned: 'queue' with pid 39
+2025-01-09 12:24:23,004 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:23,005 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:24,702 INFO spawned: 'queue' with pid 45
+2025-01-09 12:24:26,862 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:33,722 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:34,724 INFO spawned: 'queue' with pid 51
+2025-01-09 12:24:36,113 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:36,114 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:37,115 INFO spawned: 'queue' with pid 57
+2025-01-09 12:24:38,464 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:38,465 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:39,467 INFO spawned: 'queue' with pid 63
+2025-01-09 12:24:40,823 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:40,823 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:41,826 INFO spawned: 'queue' with pid 69
+2025-01-09 12:24:41,993 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:42,994 INFO spawned: 'queue' with pid 75
+2025-01-09 12:24:43,150 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:45,152 INFO spawned: 'queue' with pid 81
+2025-01-09 12:24:46,367 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:46,367 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:47,370 INFO spawned: 'queue' with pid 87
+2025-01-09 12:24:48,571 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:48,571 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:49,573 INFO spawned: 'queue' with pid 93
+2025-01-09 12:24:50,749 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:50,749 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:51,752 INFO spawned: 'queue' with pid 99
+2025-01-09 12:24:51,848 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:52,851 INFO spawned: 'queue' with pid 105
+2025-01-09 12:24:54,104 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:54,105 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:54,106 INFO spawned: 'queue' with pid 111
+2025-01-09 12:24:55,232 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:55,232 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:24:58,088 INFO spawned: 'queue' with pid 117
+2025-01-09 12:24:59,218 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:24:59,218 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:00,221 INFO spawned: 'queue' with pid 123
+2025-01-09 12:25:01,429 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:25:01,429 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:02,431 INFO spawned: 'queue' with pid 129
+2025-01-09 12:25:02,559 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:03,561 INFO spawned: 'queue' with pid 135
+2025-01-09 12:25:03,775 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:05,777 INFO spawned: 'queue' with pid 141
+2025-01-09 12:25:05,898 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:08,903 INFO spawned: 'queue' with pid 147
+2025-01-09 12:25:09,000 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:25:10,001 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:32:39,451 INFO supervisord started with pid 9
+2025-01-09 12:32:40,456 INFO spawned: 'queue' with pid 20
+2025-01-09 12:32:40,457 INFO spawned: 'rr' with pid 21
+2025-01-09 12:32:40,603 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:32:41,605 INFO spawned: 'queue' with pid 33
+2025-01-09 12:32:41,605 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:32:41,716 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:32:43,719 INFO spawned: 'queue' with pid 39
+2025-01-09 12:32:43,844 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:32:46,869 INFO spawned: 'queue' with pid 45
+2025-01-09 12:32:47,724 WARN exited: queue (exit status 255; not expected)
+2025-01-09 12:32:48,725 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:43:33,693 INFO supervisord started with pid 9
+2025-01-09 12:43:34,695 INFO spawned: 'queue' with pid 20
+2025-01-09 12:43:34,697 INFO spawned: 'rr' with pid 21
+2025-01-09 12:43:35,875 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:35,875 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:35,875 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:36,878 INFO spawned: 'queue' with pid 34
+2025-01-09 12:43:37,006 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:38,008 INFO spawned: 'queue' with pid 40
+2025-01-09 12:43:39,294 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:39,295 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:40,296 INFO spawned: 'queue' with pid 46
+2025-01-09 12:43:40,611 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:41,618 INFO spawned: 'queue' with pid 52
+2025-01-09 12:43:41,970 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:43,972 INFO spawned: 'queue' with pid 58
+2025-01-09 12:43:44,184 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:47,187 INFO spawned: 'queue' with pid 64
+2025-01-09 12:43:48,557 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:48,557 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:49,559 INFO spawned: 'queue' with pid 70
+2025-01-09 12:43:49,823 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:50,825 INFO spawned: 'queue' with pid 76
+2025-01-09 12:43:52,063 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:52,063 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:53,066 INFO spawned: 'queue' with pid 82
+2025-01-09 12:43:53,312 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:54,314 INFO spawned: 'queue' with pid 88
+2025-01-09 12:43:55,608 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:55,608 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:56,609 INFO spawned: 'queue' with pid 94
+2025-01-09 12:43:57,988 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:43:57,988 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:43:58,990 INFO spawned: 'queue' with pid 100
+2025-01-09 12:43:59,327 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:44:00,329 INFO spawned: 'queue' with pid 106
+2025-01-09 12:44:00,466 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:44:02,469 INFO spawned: 'queue' with pid 112
+2025-01-09 12:44:02,609 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:44:06,479 INFO spawned: 'queue' with pid 118
+2025-01-09 12:44:06,612 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:44:07,613 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:56:46,419 INFO supervisord started with pid 10
+2025-01-09 12:56:47,422 INFO spawned: 'queue' with pid 21
+2025-01-09 12:56:47,423 INFO spawned: 'rr' with pid 22
+2025-01-09 12:56:50,511 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:56:50,511 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:56:50,511 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:56:51,513 INFO spawned: 'queue' with pid 34
+2025-01-09 12:56:51,876 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:56:52,885 INFO spawned: 'queue' with pid 40
+2025-01-09 12:56:53,311 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:56:55,321 INFO spawned: 'queue' with pid 46
+2025-01-09 12:56:56,322 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:56:56,326 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:56:57,329 INFO spawned: 'queue' with pid 52
+2025-01-09 12:56:58,476 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:56:58,477 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:56:59,479 INFO spawned: 'queue' with pid 58
+2025-01-09 12:57:00,994 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:57:00,994 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:01,996 INFO spawned: 'queue' with pid 64
+2025-01-09 12:57:03,258 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:57:03,259 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:04,261 INFO spawned: 'queue' with pid 70
+2025-01-09 12:57:04,552 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:05,556 INFO spawned: 'queue' with pid 76
+2025-01-09 12:57:05,994 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:07,996 INFO spawned: 'queue' with pid 82
+2025-01-09 12:57:08,296 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:11,299 INFO spawned: 'queue' with pid 88
+2025-01-09 12:57:11,598 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:57:12,599 INFO gave up: queue entered FATAL state, too many start retries too quickly
+2025-01-09 12:59:18,981 INFO supervisord started with pid 9
+2025-01-09 12:59:19,996 INFO spawned: 'queue' with pid 20
+2025-01-09 12:59:19,999 INFO spawned: 'rr' with pid 21
+2025-01-09 12:59:21,372 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:21,376 INFO success: rr entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:21,376 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:22,378 INFO spawned: 'queue' with pid 33
+2025-01-09 12:59:23,174 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:24,180 INFO spawned: 'queue' with pid 39
+2025-01-09 12:59:25,203 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:25,346 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:26,349 INFO spawned: 'queue' with pid 45
+2025-01-09 12:59:26,492 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:29,371 INFO spawned: 'queue' with pid 51
+2025-01-09 12:59:29,512 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:31,515 INFO spawned: 'queue' with pid 57
+2025-01-09 12:59:31,683 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:34,688 INFO spawned: 'queue' with pid 63
+2025-01-09 12:59:36,113 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:36,113 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:37,115 INFO spawned: 'queue' with pid 69
+2025-01-09 12:59:37,459 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:38,461 INFO spawned: 'queue' with pid 75
+2025-01-09 12:59:39,834 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:39,834 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:40,836 INFO spawned: 'queue' with pid 81
+2025-01-09 12:59:42,201 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:42,201 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:43,202 INFO spawned: 'queue' with pid 87
+2025-01-09 12:59:43,522 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:44,524 INFO spawned: 'queue' with pid 93
+2025-01-09 12:59:45,903 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:45,903 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:46,904 INFO spawned: 'queue' with pid 99
+2025-01-09 12:59:47,267 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:48,269 INFO spawned: 'queue' with pid 105
+2025-01-09 12:59:49,553 INFO success: queue entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-01-09 12:59:49,553 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:50,555 INFO spawned: 'queue' with pid 111
+2025-01-09 12:59:50,914 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:51,917 INFO spawned: 'queue' with pid 117
+2025-01-09 12:59:52,048 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:54,051 INFO spawned: 'queue' with pid 123
+2025-01-09 12:59:54,223 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:57,228 INFO spawned: 'queue' with pid 129
+2025-01-09 12:59:57,360 WARN exited: queue (exit status 1; not expected)
+2025-01-09 12:59:58,360 INFO gave up: queue entered FATAL state, too many start retries too quickly

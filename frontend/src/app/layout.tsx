@@ -39,7 +39,7 @@ export default function RootLayout({
     if (token !== undefined) {
       axios({
         method: 'get',
-        url: 'http://localhost:8080/api/user/me',
+        url: 'http://localhost/api/user/me',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
