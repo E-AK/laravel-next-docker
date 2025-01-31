@@ -3,6 +3,7 @@
 namespace App\Consumer;
 
 use App\Message\SendEmailMessage;
+use App\Repository\NotificationRepository;
 use App\Repository\TaskNotificationRepository;
 use App\Service\MailService;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -13,7 +14,7 @@ readonly class MailSenderConsumer
 {
     public function __construct(
         private MailService $mailService,
-        private TaskNotificationRepository $taskNotificationRepository
+        private NotificationRepository $taskNotificationRepository
     ) {
 
     }

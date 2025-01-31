@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api\Notifications;
 
-use App\Model\NotificationDTO;
+use App\DTO\NotificationDTO;
 use App\Service\NotificationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -23,4 +23,5 @@ class CreateController extends AbstractController
     ) {
         return $this->notificationService->createNotification($request);
     }
+
 }

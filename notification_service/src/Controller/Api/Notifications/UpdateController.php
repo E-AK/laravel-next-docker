@@ -3,8 +3,9 @@
 namespace App\Controller\Api\Notifications;
 
 use App\Entity\Notification;
-use App\Model\NotificationDTO;
+use App\DTO\NotificationDTO;
 use App\Service\NotificationService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -17,7 +18,10 @@ class UpdateController extends AbstractController
 
     }
 
-    #[Route('/api/task/notification/{id}', methods: ['PUT'])]
+    /**
+     * @throws Exception
+     */
+    #[Route('/api/notification/{id}', methods: ['PUT'])]
     public function execute(
         #[MapRequestPayload]
         NotificationDTO $request,

@@ -6,7 +6,7 @@ use App\ApiResource\NotificationResource;
 use App\Entity\Task;
 use App\Entity\Notification;
 use App\Message\SendEmailMessage;
-use App\Model\NotificationDTO;
+use App\DTO\NotificationDTO;
 use App\Repository\TaskRepository;
 use DateTime;
 use DateTimeZone;

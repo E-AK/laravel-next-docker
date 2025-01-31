@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNotifications } from '../model/hooks';
 import {Task} from "@/features/todo/model/types";
 import moment from "moment";
+import {getNotificationsByTaskId} from "@/features/todo/model/api";
 
 interface TaskNotificationsProps {
     task: Task;
@@ -26,9 +27,12 @@ export const TaskNotifications: React.FC<TaskNotificationsProps> = ({ task, onCl
 
         loaded = true;
 
-        task.notifications?.forEach(notification => {
-            addNotification(notification)
-        })
+        getNotificationsByTaskId(task.id)
+            .then(response => {
+                response?.forEach(notification => {
+                    addNotification(notification)
+                })
+            })
     }, []);
 
     const handleAdd = async () => {

@@ -6,7 +6,6 @@ services:
     restart: ${DOCKER_RESTART}
     volumes:
       - ./docker/nginx/etc/conf.d:/etc/nginx/conf.d:ro
-      - ./api:/var/www/app
     ports:
       - "80:80"
       - "8080:8080"
@@ -24,35 +23,29 @@ services:
       - rabbitmq
     volumes:
       - ./user_service:/var/www/app
-    ports:
-      - "9001:9001"
 
   task_service:
     build:
       context: ./
-      dockerfile: ./docker/api/dev.Dockerfile
-      args:
-        APP_SOURCE: task_service
+      dockerfile: ./docker/task_service/dev.Dockerfile
     restart: ${DOCKER_RESTART}
     depends_on:
       - postgres_task_service
       - rabbitmq
     volumes:
       - ./task_service:/var/www/app
-#
-#  notification_service:
-#    build:
-#      context: ./
-#      dockerfile: ./docker/api/dev.Dockerfile
-#      args:
-#        APP_SOURCE: notification_service
-#    restart: ${DOCKER_RESTART}
-#    depends_on:
-#      - pgpool
-#      - rabbitmq
-#    volumes:
-#      - ./notification_service:/var/www/app
-#
+
+  notification_service:
+    build:
+      context: ./
+      dockerfile: ./docker/notification_service/dev.Dockerfile
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - postgres_notification_service
+      - rabbitmq
+    volumes:
+      - ./notification_service:/var/www/app
+
   frontend:
     build:
       context: ./
@@ -74,6 +67,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./docker/postgres_user_service/var/lib/postgresql:/var/lib/postgresql
+    ports:
+      - "5432:5432"
 
   postgres_task_service:
     image: postgres:17.0-alpine3.20
@@ -84,17 +79,21 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./docker/postgres_task_service/var/lib/postgresql:/var/lib/postgresql
-#
-#  postgres_notification_service:
-#    image: postgres:17.0-alpine3.20
-#    restart: always
-#    environment:
-#      POSTGRES_DB: ${POSTGRES_DB_NOTIFICATION_SERVICE}
-#      POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#    volumes:
-#      - ./docker/postgres_notification_service/var/lib/postgresql:/var/lib/postgresql
-#
+    ports:
+      - "5431:5432"
+
+  postgres_notification_service:
+    image: postgres:17.0-alpine3.20
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_NOTIFICATION_SERVICE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./docker/postgres_notification_service/var/lib/postgresql:/var/lib/postgresql
+    ports:
+      - "5430:5432"
+
   rabbitmq:
     image: rabbitmq:4.0.4-management-alpine
     restart: always
@@ -102,46 +101,10 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-#  mailhog:
-#    container_name: mailhog
-#    restart: ${DOCKER_RESTART}
-#    image: mailhog/mailhog:latest
-#    ports:
-#      - "8025:8025"
-#      - "1025:1025"
-#
-#  telegraf:
-#    image: telegraf:1.31.3-alpine
-#    restart: ${DOCKER_RESTART}
-#    environment:
-#      INFLUX_HOST: ${INFLUX_HOST}
-#      INFLUXDB_DB: ${INFLUXDB_DB}
-#      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
-#      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_USER}
-#      POSTGRES_DB: ${POSTGRES_DB}
-#      POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-#    volumes:
-#      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-#    depends_on:
-#      - influxdb
-#
-#  influxdb:
-#    image: influxdb:1.11.8-alpine
-#    restart: ${DOCKER_RESTART}
-#    environment:
-#      INFLUXDB_DB: ${INFLUXDB_DB}
-#      INFLUXDB_ADMIN_USER: ${INFLUXDB_ADMIN_USER}
-#      INFLUXDB_ADMIN_PASSWORD: ${INFLUXDB_ADMIN_PASSWORD}
-#    volumes:
-#      - ./influxdb/data:/var/lib/influxdb
-#      - ./influxdb/config:/etc/influxdb
-#
-#  grafana:
-#    image: grafana/grafana-enterprise
-#    restart: ${DOCKER_RESTART}
-#    ports:
-#      - '3000:3000'
-#    volumes:
-#      - ./grafana/var/lib/grafana:/var/lib/grafana
-#      - ./grafana/usr/share/grafana/conf/provisioning/datasources:/usr/share/grafana/conf/provisioning/datasources
+  mailhog:
+    container_name: mailhog
+    restart: ${DOCKER_RESTART}
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"
+      - "1025:1025"

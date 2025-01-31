@@ -9,8 +9,7 @@ class NotificationDTO
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Positive]
-        public int $taskId,
+        public string $taskId,
 
         #[Assert\NotBlank]
         #[Assert\Regex(

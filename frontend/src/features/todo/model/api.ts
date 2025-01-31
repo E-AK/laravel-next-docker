@@ -25,6 +25,11 @@ export const updateTaskStatus = async (id: string): Promise<Task> => {
     return response.data.data;
 };
 
+export const getNotificationsByTaskId = async (taskId: string): Promise<Notification[]> => {
+    const response = await axios.get(`/notifications/task/${taskId}`);
+    return response.data.data;
+};
+
 export const createNotification = async (data: object): Promise<Notification> => {
     const response = await axios.post('/notification', data);
     return response.data.data;

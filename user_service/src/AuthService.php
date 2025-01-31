@@ -2,10 +2,11 @@
 
 namespace App;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Grpc\Auth\AuthInterface;
 use Grpc\Auth\Request;
 use Grpc\Auth\Response;
-use JsonException;
 use Spiral\RoadRunner\GRPC;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -14,35 +15,30 @@ readonly class AuthService implements AuthInterface
 {
     public function __construct(
         private JWTTokenManagerInterface $jwtManager,
+        private UserRepository $userRepository
     ) {
 
     }
 
-    /**
-     * @throws JsonException
-     */
     public function auth(GRPC\ContextInterface $ctx, Request $in): Response
     {
         $decodedJwtToken = $this->jwtManager->parse($in->getToken());
 
         if (!$decodedJwtToken) {
-            throw new AuthenticationException(
-                json_encode(
-                    $decodedJwtToken,
-                    JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
-                )
-            );
+            throw new AuthenticationException('Invalid jwt Token: ' . $in->getToken());
         }
 
-        if (!isset($decodedJwtToken['id'])) {
-            throw new AuthenticationException(
-                json_encode(
-                    $decodedJwtToken,
-                    JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT
-                )
-            );
+        if (!isset($decodedJwtToken['username'])) {
+            throw new AuthenticationException('Invalid jwt Token: ' . json_encode($decodedJwtToken, JSON_PRETTY_PRINT));
         }
 
-        return $decodedJwtToken['id'];
+//        throw new Authenticationexception($decodedJwtToken['username']);
+
+        /**
+         * @var User $user
+         */
+        $user = $this->userRepository->findOneBy(['email'=> $decodedJwtToken['username']]);
+
+        return (new Response())->setId($user->getId()?->toString());
     }
 }

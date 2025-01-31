@@ -16,12 +16,6 @@ export const useTasks = () => {
 
     useEffect(() => {
         fetchTasks().then(tasks => {
-            tasks.forEach(task => {
-                task.notifications.forEach(notification => {
-
-                })
-            })
-
             setTasks(tasks)
         });
     }, []);
@@ -32,7 +26,6 @@ export const useTasks = () => {
     };
 
     const editTask = (id: string, text: string) => {
-        debugger
         setTasks(prevTasks => {
             return prevTasks.map(task =>
                 task.id === id ? {...task, text: text} : task

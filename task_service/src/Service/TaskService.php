@@ -17,7 +17,7 @@ readonly class TaskService
 
     }
 
-    public function create(TaskDTO $request, string $userId): TaskResource
+    public function create(TaskDTO $request, string $userId): Task
     {
         $task = new Task();
 
@@ -28,7 +28,7 @@ readonly class TaskService
         $this->entityManager->persist($task);
         $this->entityManager->flush();
 
-        return new TaskResource($task);
+        return $task;
     }
 
     public function deleteTask(Task $task): void
@@ -37,7 +37,7 @@ readonly class TaskService
         $this->entityManager->flush();
     }
 
-    public function updateTask(Task $task, ?TaskStatus $status = null, ?string $text = null): TaskResource
+    public function updateTask(Task $task, ?TaskStatus $status = null, ?string $text = null): Task
     {
         if (!is_null($status)) {
             $task->setStatus($status);
@@ -50,10 +50,10 @@ readonly class TaskService
         $this->entityManager->persist($task);
         $this->entityManager->flush();
 
-        return new TaskResource($task);
+        return $task;
     }
 
-    public function nextStatus(Task $task)
+    public function nextStatus(Task $task): Task
     {
         $status = match ($task->getStatus()) {
             TaskStatus::TODO => TaskStatus::DOES,
@@ -66,6 +66,6 @@ readonly class TaskService
         $this->entityManager->persist($task);
         $this->entityManager->flush();
 
-        return new TaskResource($task);
+        return $task;
     }
 }

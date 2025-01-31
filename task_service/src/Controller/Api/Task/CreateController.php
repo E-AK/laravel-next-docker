@@ -6,6 +6,9 @@ use App\ApiResource\TaskResource;
 use App\DTO\TaskDTO;
 use App\Entity\User;
 use App\Service\TaskService;
+use App\Service\UploadTaskService;
+use JsonException;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,10 +17,14 @@ class CreateController extends AbstractController
 {
     public function __construct(
         private readonly TaskService $taskService,
+        private readonly UploadTaskService $uploadTaskService
     ) {
 
     }
 
+    /**
+     * @throws JsonException
+     */
     #[Route('/api/task/create', methods: ['POST'])]
     public function execute(
         #[MapRequestPayload] TaskDto $request,
@@ -27,6 +34,10 @@ class CreateController extends AbstractController
          */
         $user = $this->getUser();
 
-        return $this->taskService->create($request, $user->getId());
+        $task = $this->taskService->create($request, $user->getId());
+
+        $this->uploadTaskService->uploadTask($task);
+
+        return new TaskResource($task);
     }
 }

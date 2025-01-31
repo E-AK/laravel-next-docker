@@ -9,13 +9,16 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class DeleteController extends AbstractController
 {
+    /**
+     * @param  NotificationService  $notificationService
+     */
     public function __construct(
         private readonly NotificationService $notificationService
     ) {
 
     }
 
-    #[Route('/api/task/notification/{id}', methods: ['DELETE'])]
+    #[Route('/api/notification/{id}', methods: ['DELETE'])]
     public function execute(
         Notification $taskNotification
     ) {

@@ -24,11 +24,13 @@ readonly class MailService
     {
         $to = $taskNotification->getTask()->getUser()->getEmail();
 
+        $text = $taskNotification->getTask()->getText();
+
         $email = (new Email())
             ->from('test@test.com')
             ->to($to)
             ->subject('Task')
-            ->text('Выполни таску!');
+            ->text("Выполни таску!\nЗадача: $text");
 
         $this->mailer->send($email);
 
