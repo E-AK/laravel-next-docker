@@ -71,6 +71,8 @@ final readonly class Auth
             $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
             $this->tokenStorage->setToken($token);
         } catch (Exception $exception) {
+            echo $exception->getMessage();
+            exit;
             throw new AuthenticationException($exception->getMessage());
         }
     }

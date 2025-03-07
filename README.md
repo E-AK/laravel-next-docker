@@ -2,39 +2,26 @@
 
 Создаем .env и задаем переменные среды как в [.env.example](./.env.example)
 
-В папке [api](./api) создаем .env как в [api](./api/.env.example).
+В сервисах notification_service, task_service, user_service тоже создаем .env как .env.example
 
-## Dev
+# Запуск
 
-```bash
-docker compose -f docker-compose.dev.yml up -d --build
+Есть Makefile. Для запуска со сборкой образа: 
+```shell
+make up-build
 ```
 
-Если это 1 запуск, то заходим в контейнер api:
-
-```bash
-docker compose exec -it api bash
+Запустить без сборки:
+```shell
+make up
 ```
 
-Создаем бд:
-
-```bash
-php bin/console doctrine:database:create
+Остановить:
+```shell
+make stop
 ```
 
-Запускаем миграцию:
-
-```bash
-php bin/console doctrine:migrations:migrate
-```
-
-Создае пару ключей для JWT:
-```bash
-php bin/console lexik:jwt:generate-keypair
-```
-
-## Prod
-
-```bash
-docker compose up -d --build
+Остановить с очисткой volume:
+```shell
+make clean
 ```
