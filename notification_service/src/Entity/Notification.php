@@ -27,6 +27,9 @@ class Notification
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $datetime = null;
 
+    #[ORM\Column(length: 1023, nullable: false)]
+    private ?string $email = null;
+
     #[ORM\Column]
     private ?bool $sent = null;
 
@@ -94,6 +97,18 @@ class Notification
     public function setTask(Task $task): static
     {
         $this->task = $task;
+
+        return $this;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
 
         return $this;
     }

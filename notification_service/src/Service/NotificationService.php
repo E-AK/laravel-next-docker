@@ -32,8 +32,10 @@ readonly class NotificationService
      * @throws Exception
      * @throws ExceptionInterface
      */
-    public function createNotification(NotificationDTO $request): NotificationResource
-    {
+    public function createNotification(
+        NotificationDTO $request,
+        string $email
+    ): NotificationResource {
         $timeZone = new DateTimeZone('UTC');
 
         $now = new DateTime(timezone: $timeZone);
@@ -60,6 +62,7 @@ readonly class NotificationService
         $notification->setDatetime(new DateTime($request->datetime, $timeZone));
         $notification->setTask($task);
         $notification->setSent(false);
+        $notification->setEmail($email);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

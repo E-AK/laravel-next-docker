@@ -18,9 +18,8 @@ class Task
     #[ORM\Column(length: 1023)]
     private ?string $text = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tasks')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\Column(type: UuidType::NAME)]
+    private ?Uuid $user_id = null;
 
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'task')]
     private Collection $notifications;
@@ -49,14 +48,14 @@ class Task
         return $this;
     }
 
-    public function getUser(): User
+    public function getUserId(): ?Uuid
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUser(User $user): static
+    public function setUserId(?Uuid $user_id): static
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
 
         return $this;
     }

@@ -18,7 +18,7 @@ class DeleteController extends AbstractController
 
     }
 
-    #[Route('/api/notification/{id}', methods: ['DELETE'])]
+    #[Route('/api/notifications/{id}', methods: ['DELETE'])]
     public function execute(
         Notification $taskNotification
     ) {

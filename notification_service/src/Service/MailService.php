@@ -22,7 +22,7 @@ readonly class MailService
      */
     public function sendEmail(Notification $taskNotification): void
     {
-        $to = $taskNotification->getTask()->getUser()->getEmail();
+        $to = $taskNotification->getEmail();
 
         $text = $taskNotification->getTask()->getText();
 

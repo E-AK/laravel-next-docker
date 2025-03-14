@@ -21,7 +21,7 @@ class UpdateController extends AbstractController
     /**
      * @throws Exception
      */
-    #[Route('/api/notification/{id}', methods: ['PUT'])]
+    #[Route('/api/notifications/{id}', methods: ['PUT'])]
     public function execute(
         #[MapRequestPayload]
         NotificationDTO $request,

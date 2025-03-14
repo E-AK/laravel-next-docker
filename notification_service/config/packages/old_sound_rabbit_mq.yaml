@@ -10,11 +10,6 @@ old_sound_rabbit_mq:
             connection_timeout: 3
             read_write_timeout: 3
     consumers:
-        upload_user:
-            connection: default
-            exchange_options: { name: 'upload-user', type: fanout }
-            queue_options: { name: 'notification_service.user'}
-            callback: App\Consumer\UserConsumer
         upload_task:
             connection: default
             exchange_options: { name: 'upload-task', type: fanout }
