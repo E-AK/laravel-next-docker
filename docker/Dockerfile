@@ -1,38 +1,40 @@
-FROM php:8.3.15
+ARG PHP_VERSION=8.3
+
+FROM php:${PHP_VERSION}
 
 RUN apt-get update && apt-get install -y \
     git curl nano zip unzip \
     libpng-dev libonig-dev libxml2-dev libsodium-dev \
     supervisor build-essential autoconf libtool pkg-config \
-    libgrpc-dev protobuf-compiler net-tools iputils-ping \
+    net-tools iputils-ping \
     librabbitmq-dev libpq-dev\
+    libfreetype-dev \
+    libjpeg62-turbo-dev \
+    zlib1g-dev \
+    libzip-dev \
+    libpcre3 libpcre3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth 1 -b v1.56.0 https://github.com/grpc/grpc /tmp/grpc && \
-    cd /tmp/grpc && \
-    git submodule update --init && \
-    cd src/php/ext/grpc && \
-    phpize && \
-    ./configure && \
-    make && \
-    make install && \
-    echo "extension=grpc.so" > /usr/local/etc/php/conf.d/grpc.ini && \
-    rm -rf /tmp/grpc
-
+RUN pecl install amqp
 RUN docker-php-ext-enable --ini-name 05-opcache.ini opcache
-RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql && docker-php-ext-enable sockets grpc
+RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql
+RUN docker-php-ext-enable sockets amqp
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
     && usermod -s /bin/bash www-data
 
-COPY ./docker/task_service/entrypoint.sh /var/www/entrypoint.sh
-COPY ./docker/task_service/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ARG SERVICE_NAME=user_service
+
+COPY ./docker/jit.ini /etc/php/${PHP_VERSION}/cli/conf.d/jin.ini
+COPY ./docker/${SERVICE_NAME}/entrypoint.sh /var/www/entrypoint.sh
+COPY ./docker/${SERVICE_NAME}/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 WORKDIR /var/www/app
 RUN mkdir -p /var/log/supervisor /var/www/app \
     && chown -R www-data:www-data /var/log/supervisor /var/www/app
 
-COPY ./task_service/ ./
+COPY ./${SERVICE_NAME}/ ./
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2.8.2 /usr/bin/composer /usr/bin/composer

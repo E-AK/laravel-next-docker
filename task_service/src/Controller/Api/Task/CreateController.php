@@ -9,6 +9,7 @@ use App\Service\TaskService;
 use App\Service\UploadTaskService;
 use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
@@ -25,16 +26,14 @@ class CreateController extends AbstractController
     /**
      * @throws JsonException
      */
-    #[Route('/api/task/create', methods: ['POST'])]
+    #[Route('/api/tasks/create', methods: ['POST'])]
     public function execute(
-        #[MapRequestPayload] TaskDto $request,
+        #[MapRequestPayload] TaskDto $taskDTO,
+        Request $request
     ): TaskResource {
-        /**
-         * @var User $user
-         */
-//        $user = $this->getUser();
+        $userId = $request->headers->get('X-User-Id');
 
-        $task = $this->taskService->create($request, new Uuid('019570a4-e3bf-7504-99d4-c82f025cdf88'));
+        $task = $this->taskService->create($taskDTO, new Uuid($userId));
 
         $this->uploadTaskService->uploadTask($task);
 

@@ -16,9 +16,3 @@ old_sound_rabbit_mq:
         delete_task:
             connection: default
             exchange_options: { name: 'delete-task', type: fanout }
-    consumers:
-        upload_user:
-            connection: default
-            exchange_options: { name: 'upload-user', type: fanout }
-            queue_options: { name: 'task_service.user'}
-            callback: App\Consumer\UserConsumer
