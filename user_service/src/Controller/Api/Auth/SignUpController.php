@@ -5,11 +5,14 @@ namespace App\Controller\Api\Auth;
 use App\ApiResource\TokenResource;
 use App\Entity\User;
 use App\DTO\SignUpDTO;
+use App\Message\SendEmailMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -18,6 +21,7 @@ class SignUpController extends AbstractController
 {
     public function __construct(
         private readonly ProducerInterface $uploadUserProducer,
+        private MessageBusInterface $bus,
     ) {
 
     }
@@ -62,6 +66,12 @@ class SignUpController extends AbstractController
             'id'    => $user->getId(),
             'email' => $user->getEmail(),
         ], JSON_THROW_ON_ERROR));
+
+        $message = new SendEmailMessage(
+            $user->getEmail(),
+            'You have been registered in the system'
+        );
+        $this->bus->dispatch($message);
 
         return new TokenResource($token);
     }

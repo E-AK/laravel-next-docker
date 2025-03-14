@@ -15,11 +15,11 @@ RUN apt-get update && apt-get install -y \
     libpcre3 libpcre3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install amqp
+RUN pecl install amqp redis
 RUN docker-php-ext-enable --ini-name 05-opcache.ini opcache
 RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql
-RUN docker-php-ext-enable sockets amqp
+RUN docker-php-ext-enable sockets amqp redis.so
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
     && usermod -s /bin/bash www-data

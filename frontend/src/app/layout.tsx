@@ -2,8 +2,9 @@
 
 import localFont from "next/font/local";
 import "./globals.css";
-import axios from 'axios';
+import axios from '@/shared/lib/axiosInstance';
 import { useState, useEffect } from 'react';
+import {redirect} from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -52,18 +53,28 @@ export default function RootLayout({
     loaded = true;
   }, []);
 
+  const logout = (): void => {
+      axios.post('/auth/logout')
+          .then(() => {
+              window.location.href = "/"
+          })
+  }
+
   const renderNavbarLinks = () => {
     if (login !== null) {
       return (
-          <div className="ml-10 flex items-center">
-            {login}
-          </div>
+          <>
+              <div className="ml-10 flex items-center">
+                  {login}
+              </div>
+              <button onClick={logout}>Logout</button>
+          </>
       );
     }
 
-    return (
-        <>
-          <a href="/auth/signup" className="ml-10 px-3 py-2 rounded-md text-sm font-medium text-gray-900 bg-gray-100 hover:bg-gray-200">
+      return (
+          <>
+              <a href="/auth/signup" className="ml-10 px-3 py-2 rounded-md text-sm font-medium text-gray-900 bg-gray-100 hover:bg-gray-200">
             Register
           </a>
           <a href="/auth/signin" className="ml-8 px-3 py-2 rounded-md text-sm font-medium text-gray-900 bg-gray-100 hover:bg-gray-200">

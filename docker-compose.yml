@@ -22,9 +22,12 @@ services:
     restart: ${DOCKER_RESTART}
     depends_on:
       - postgres_user_service
+      - user_service_redis
       - rabbitmq
     volumes:
       - ./user_service:/var/www/app
+    ports:
+      - "8081:8080"
 
   task_service:
     build:
@@ -103,6 +106,12 @@ services:
       - ./docker/postgres_notification_service/var/lib/postgresql:/var/lib/postgresql
     ports:
       - "5430:5432"
+
+  user_service_redis:
+    image: redis:7.4.2-alpine3.21
+    restart: always
+    ports:
+      - "6379:6379"
 
   rabbitmq:
     image: rabbitmq:4.0.4-management-alpine

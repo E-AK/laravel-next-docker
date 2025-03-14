@@ -4,7 +4,11 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session: true
-
+    cache:
+        default_redis_provider: 'redis://user_service_redis'
+        pools:
+            block_list_token_cache_pool:
+                adapter: cache.adapter.redis
     #esi: true
     #fragments: true
 
