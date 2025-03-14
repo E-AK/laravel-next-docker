@@ -7,8 +7,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaskResource extends JsonResponse
 {
+    use TaskDataTrait;
+
     public function __construct(
-        Task  $notification,
+        Task  $task,
         int   $status = 200,
         array $headers = [],
         bool  $json = false
@@ -16,11 +18,7 @@ class TaskResource extends JsonResponse
     {
         parent::__construct(
             [
-                'data' => [
-                    'id' => $notification->getId(),
-                    'text' => $notification->getText(),
-                    'status' => $notification->getStatus(),
-                ],
+                'data' => $this->getTaskData($task),
             ],
             $status,
             $headers,

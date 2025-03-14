@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TaskCollection extends JsonResponse
 {
+    use TaskDataTrait;
+
     public function __construct(
         array $tasks,
         int $status = 200,
@@ -20,11 +22,7 @@ class TaskCollection extends JsonResponse
          * @var Task $task
          */
         foreach ($tasks as $task) {
-            $data['data'][] = [
-                'id' => $task->getId(),
-                'text' => $task->getText(),
-                'status' => $task->getStatus(),
-            ];
+            $data['data'][] = $this->getTaskData($task);
         }
 
         parent::__construct(
