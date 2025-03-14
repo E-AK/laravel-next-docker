@@ -9,7 +9,10 @@ use JsonException;
 use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class DeleteController extends AbstractController
 {
@@ -23,11 +26,9 @@ class DeleteController extends AbstractController
     /**
      * @throws JsonException
      */
-    #[Route('/api/task/delete/{id}', methods: ['DELETE'])]
+    #[Route('/api/tasks/delete/{id}', methods: ['DELETE'])]
     public function execute(Task $task): JsonResponse
     {
-        $this->denyAccessUnlessGranted('delete', $task);
-
         $this->taskService->deleteTask($task);
 
         $this->deleteTaskProducer->publish(json_encode([
