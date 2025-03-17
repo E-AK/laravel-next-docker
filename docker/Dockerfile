@@ -35,13 +35,11 @@ RUN mkdir -p /var/log/supervisor /var/www/app \
     && chown -R www-data:www-data /var/log/supervisor /var/www/app
 
 COPY ./${SERVICE_NAME}/ ./
+RUN chown -R www-data:www-data /var/www/app
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2.8.2 /usr/bin/composer /usr/bin/composer
-RUN composer install
+RUN composer install --no-cache --no-scripts
 RUN ./vendor/bin/rr get-binary --location /usr/local/bin
-
-USER www-data
 
 EXPOSE 8000
 

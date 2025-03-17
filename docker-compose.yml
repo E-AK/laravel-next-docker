@@ -21,13 +21,11 @@ services:
         PHP_VERSION: 8.3
     restart: ${DOCKER_RESTART}
     depends_on:
-      - postgres_user_service
+      - postgres
       - user_service_redis
       - rabbitmq
     volumes:
       - ./user_service:/var/www/app
-    ports:
-      - "8081:8080"
 
   task_service:
     build:
@@ -38,12 +36,10 @@ services:
         PHP_VERSION: 8.3
     restart: ${DOCKER_RESTART}
     depends_on:
-      - postgres_task_service
+      - postgres
       - rabbitmq
     volumes:
       - ./task_service:/var/www/app
-    ports:
-      - "8080:8080"
 
   notification_service:
     build:
@@ -54,7 +50,7 @@ services:
         PHP_VERSION: 8.3
     restart: ${DOCKER_RESTART}
     depends_on:
-      - postgres_notification_service
+      - postgres
       - rabbitmq
     volumes:
       - ./notification_service:/var/www/app
@@ -71,41 +67,16 @@ services:
       - /app/node_modules
       - /app/.next
 
-  postgres_user_service:
+  postgres:
     image: postgres:17.0-alpine3.20
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB_USER_SERVICE}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - ./docker/postgres_user_service/var/lib/postgresql:/var/lib/postgresql
+      - ./docker/postgres/var/lib/postgresql:/var/lib/postgresql
     ports:
       - "5432:5432"
-
-  postgres_task_service:
-    image: postgres:17.0-alpine3.20
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB_TASK_SERVICE}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./docker/postgres_task_service/var/lib/postgresql:/var/lib/postgresql
-    ports:
-      - "5431:5432"
-
-  postgres_notification_service:
-    image: postgres:17.0-alpine3.20
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB_NOTIFICATION_SERVICE}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - ./docker/postgres_notification_service/var/lib/postgresql:/var/lib/postgresql
-    ports:
-      - "5430:5432"
 
   user_service_redis:
     image: redis:7.4.2-alpine3.21
