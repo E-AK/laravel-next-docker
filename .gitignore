@@ -2,3 +2,4 @@
 .env
 grafana/var
 influxdb
+*/supervisord.*
