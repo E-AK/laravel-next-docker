@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UserService
@@ -29,11 +30,11 @@ class UserService
         $user = $this->userRepository->findByEmail($request->email);
 
         if (is_null($user)) {
-            $this->notFoundUserException();
+            $this->authenticationException();
         }
 
         if (!$this->passwordHasher->isPasswordValid($user, $request->password)) {
-            $this->notFoundUserException();
+            $this->authenticationException();
         }
 
         $token = $this->JWTTokenManager->create($user);
@@ -52,8 +53,8 @@ class UserService
         return new TokenResource($token);
     }
 
-    private function notFoundUserException()
+    private function authenticationException()
     {
-        throw new NotFoundHttpException('Пользователь не найден');
+        throw new AuthenticationException('Неверный логин или пароль');
     }
 }
