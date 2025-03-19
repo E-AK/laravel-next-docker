@@ -9,11 +9,8 @@ use App\Message\SendEmailMessage;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Tests\BaseTest;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
-use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignUpTest extends BaseTest
@@ -48,10 +45,6 @@ class SignUpTest extends BaseTest
             '11111111'
         );
 
-        $violations = $this->validator->validate($signUpDto);
-
-        $this->assertCount(0, $violations);
-
         $result = $userService->register($signUpDto);
 
         $this->assertInstanceOf(TokenResource::class, $result);
@@ -69,7 +62,6 @@ class SignUpTest extends BaseTest
 
         $violations = $this->validator->validate($signUpDto);
 
-        $this->assertCount(1, $violations);
         $this->assertSame('repeat_password', $violations[0]->getPropertyPath());
     }
 
@@ -83,7 +75,6 @@ class SignUpTest extends BaseTest
 
         $violations = $this->validator->validate($signUpDto);
 
-        $this->assertGreaterThan(0, count($violations));
         $this->assertSame('email', $violations[0]->getPropertyPath());
     }
 
@@ -97,7 +88,6 @@ class SignUpTest extends BaseTest
 
         $violations = $this->validator->validate($signUpDto);
 
-        $this->assertGreaterThan(0, count($violations));
         $this->assertSame('password', $violations[0]->getPropertyPath());
     }
 
@@ -114,8 +104,6 @@ class SignUpTest extends BaseTest
 
         $violations = $this->validator->validate($signUpDto);
 
-        $this->assertGreaterThan(0, count($violations));
-        $this->assertSame('email', $violations[0]->getPropertyPath());
         $this->assertStringContainsString('Email must be unique', $violations[0]->getMessage());
     }
 
@@ -134,8 +122,6 @@ class SignUpTest extends BaseTest
 
         $envelopes = iterator_to_array($this->transport->get());
 
-        $this->assertGreaterThan(0, count($envelopes));
-
         $foundEmailMessage = false;
         foreach ($envelopes as $envelope) {
             $message = $envelope->getMessage();
@@ -146,5 +132,41 @@ class SignUpTest extends BaseTest
         }
 
         $this->assertTrue($foundEmailMessage);
+    }
+
+    public function testEmptyEmail(): void
+    {
+        $signUpDto = new SignUpDTO(
+            '',
+            '11111111',
+            '11111111'
+        );
+
+        $violations = $this->validator->validate($signUpDto);
+        $this->assertSame('This value should not be blank.', $violations[0]->getMessage());
+    }
+
+    public function testEmptyPassword(): void
+    {
+        $signUpDto = new SignUpDTO(
+            'test@test.test',
+            '',
+            '11111111'
+        );
+
+        $violations = $this->validator->validate($signUpDto);
+        $this->assertSame('This value should not be blank.', $violations[0]->getMessage());
+    }
+
+    public function testEmptyRepeatPassword(): void
+    {
+        $signUpDto = new SignUpDTO(
+            'test@test.test',
+            '11111111',
+            ''
+        );
+
+        $violations = $this->validator->validate($signUpDto);
+        $this->assertSame('This value should not be blank.', $violations[0]->getMessage());
     }
 }

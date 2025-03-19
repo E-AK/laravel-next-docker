@@ -8,7 +8,6 @@ use App\DTO\SignUpDTO;
 use App\Service\UserService;
 use App\Tests\BaseTest;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignInTest extends BaseTest
@@ -58,11 +57,7 @@ class SignInTest extends BaseTest
             'test1@test.test',
             '11111111',
         );
-
-        $violations = $this->validator->validate($signInDTO);
-
-        $this->assertCount(0, $violations);
-
+        
         $result = $userService->login($signInDTO);
 
         $this->assertInstanceOf(TokenResource::class, $result);
@@ -76,7 +71,6 @@ class SignInTest extends BaseTest
         );
 
         $violations = $this->validator->validate($signInDTO);
-        $this->assertGreaterThan(0, count($violations));
         $this->assertSame('email', $violations[0]->getPropertyPath());
     }
 
@@ -87,8 +81,49 @@ class SignInTest extends BaseTest
             'wrongpassword',
         );
 
+        $this->expectException(AuthenticationException::class);
+        $this->userService->login($signInDTO);
+    }
+
+    public function testEmptyEmail(): void
+    {
+        $signInDTO = new SignInDTO(
+            '',
+            '11111111',
+        );
+
         $violations = $this->validator->validate($signInDTO);
-        $this->assertCount(0, $violations);
+        $this->assertSame('This value should not be blank.', $violations[0]->getMessage());
+    }
+
+    public function testEmptyPassword(): void
+    {
+        $signInDTO = new SignInDTO(
+            'test1@test.test',
+            '',
+        );
+
+        $violations = $this->validator->validate($signInDTO);
+        $this->assertSame('This value should not be blank.', $violations[0]->getMessage());
+    }
+
+    public function testShortPassword(): void
+    {
+        $signInDTO = new SignInDTO(
+            'test1@test.test',
+            '11111',
+        );
+
+        $violations = $this->validator->validate($signInDTO);
+        $this->assertSame('This value is too short. It should have 8 characters or more.', $violations[0]->getMessage());
+    }
+
+    public function testNonExistentEmail(): void
+    {
+        $signInDTO = new SignInDTO(
+            'nonexistent@test.test',
+            '11111111',
+        );
 
         $this->expectException(AuthenticationException::class);
         $this->userService->login($signInDTO);

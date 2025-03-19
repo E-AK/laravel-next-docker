@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit;
+namespace App\Tests\Feature;
 
 use App\DTO\SignUpDTO;
 use App\Service\UserService;
