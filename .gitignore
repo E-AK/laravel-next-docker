@@ -4,3 +4,4 @@ grafana/var
 influxdb
 */supervisord.*
 */.phpunit.cache
+*/.phpunit.result.cache

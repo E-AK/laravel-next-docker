@@ -10,8 +10,11 @@ trait TaskDataTrait
     {
         return [
             'id' => $task->getId(),
+            'user_id' => $task->getUserId(),
             'text' => $task->getText(),
             'status' => $task->getStatus(),
+            'created_at' => $task->getCreatedAt(),
+            'updated_at' => $task->getUpdatedAt(),
         ];
     }
 }

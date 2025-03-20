@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class CreateController extends AbstractController
 {
@@ -33,7 +33,11 @@ class CreateController extends AbstractController
     ): TaskResource {
         $userId = $request->headers->get('X-User-Id');
 
-        $task = $this->taskService->create($taskDTO, new Uuid($userId));
+        if ($userId === null) {
+            throw new AuthenticationException('Missing user id');
+        }
+
+        $task = $this->taskService->create($taskDTO, $userId);
 
         $this->uploadTaskService->uploadTask($task);
 

@@ -46,19 +46,13 @@ class SignInTest extends BaseTest
     public function testSuccessSignIn()
     {
         self::bootKernel();
-        $container = static::getContainer();
-
-        /**
-         * @var UserService $userService
-         */
-        $userService = $container->get(UserService::class);
 
         $signInDTO = new SignInDTO(
             'test1@test.test',
             '11111111',
         );
         
-        $result = $userService->login($signInDTO);
+        $result = $this->userService->login($signInDTO);
 
         $this->assertInstanceOf(TokenResource::class, $result);
     }

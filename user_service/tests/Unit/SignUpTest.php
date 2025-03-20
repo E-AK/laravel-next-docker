@@ -32,12 +32,6 @@ class SignUpTest extends BaseTest
     public function testSuccessSignUp()
     {
         self::bootKernel();
-        $container = static::getContainer();
-
-        /**
-         * @var UserService $userService
-         */
-        $userService = $container->get(UserService::class);
 
         $signUpDto = new SignUpDTO(
             'test@test.test',
@@ -45,7 +39,7 @@ class SignUpTest extends BaseTest
             '11111111'
         );
 
-        $result = $userService->register($signUpDto);
+        $result = $this->userService->register($signUpDto);
 
         $this->assertInstanceOf(TokenResource::class, $result);
     }
