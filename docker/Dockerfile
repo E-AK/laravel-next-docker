@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libzip-dev \
     libpcre3 libpcre3-dev \
+    libmagickwand-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pecl install amqp redis
@@ -20,13 +21,15 @@ RUN docker-php-ext-enable --ini-name 05-opcache.ini opcache
 RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql
 RUN docker-php-ext-enable sockets amqp redis.so
+RUN pecl install imagick
+RUN docker-php-ext-enable imagick
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data \
     && usermod -s /bin/bash www-data
 
 ARG SERVICE_NAME=user_service
 
-COPY ./docker/jit.ini /etc/php/${PHP_VERSION}/cli/conf.d/jin.ini
+COPY ./docker/jit.ini /etc/php/${PHP_VERSION}/cli/conf.d/jit.ini
 COPY ./docker/${SERVICE_NAME}/entrypoint.sh /var/www/entrypoint.sh
 COPY ./docker/${SERVICE_NAME}/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -41,6 +44,6 @@ COPY --from=composer:2.8.2 /usr/bin/composer /usr/bin/composer
 RUN composer install --no-cache --no-scripts
 RUN ./vendor/bin/rr get-binary --location /usr/local/bin
 
-EXPOSE 8000
+EXPOSE 8080
 
 ENTRYPOINT ["/bin/sh", "/var/www/entrypoint.sh"]

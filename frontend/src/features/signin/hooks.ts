@@ -18,7 +18,7 @@ export const useSignin = () => {
         try {
             const token = await signIn(formData.email, formData.password);
             localStorage.setItem('token', token);
-            router.push('/'); // Редирект после успешного входа
+            window.location.href = "/"; // Редирект после успешного входа
         } catch (error: any) {
             setErrors({
                 email: error?.response?.data?.errors?.email || '',
@@ -31,7 +31,7 @@ export const useSignin = () => {
         const token = localStorage.getItem('token');
         if (token) {
             fetchUserProfile(token)
-                .then(() => router.push('/')) // Если пользователь уже авторизован
+                .then(() => window.location.href = "/") // Если пользователь уже авторизован
                 .catch(() => localStorage.removeItem('token')); // Если токен недействителен
         }
     }, [router]);

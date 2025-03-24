@@ -55,6 +55,21 @@ services:
     volumes:
       - ./notification_service:/var/www/app
 
+  avatar_service:
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
+      args:
+        SERVICE_NAME: avatar_service
+        PHP_VERSION: 8.3
+    restart: ${DOCKER_RESTART}
+    depends_on:
+      - postgres
+    volumes:
+      - ./avatar_service:/var/www/app
+    ports:
+      - "8080:8080"
+
   frontend:
     build:
       context: ./
@@ -68,7 +83,7 @@ services:
       - /app/.next
 
   postgres:
-    image: postgres:17.0-alpine3.20
+    image: postgres:17.4-alpine3.20
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -85,7 +100,7 @@ services:
       - "6379:6379"
 
   rabbitmq:
-    image: rabbitmq:4.0.4-management-alpine
+    image: rabbitmq:4.0.7-management-alpine
     restart: always
     ports:
       - "5672:5672"

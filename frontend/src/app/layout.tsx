@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import axios from '@/shared/lib/axiosInstance';
 import { useState, useEffect } from 'react';
-import {redirect} from "next/navigation";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -65,7 +64,7 @@ export default function RootLayout({
       return (
           <>
               <div className="ml-10 flex items-center">
-                  {login}
+                  <a href="/user">{login}</a>
               </div>
               <button onClick={logout}>Logout</button>
           </>
