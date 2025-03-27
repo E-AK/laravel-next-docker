@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import axios from '@/shared/lib/axiosInstance';
 
 export default function AvatarUpload() {
@@ -11,16 +10,29 @@ export default function AvatarUpload() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-        if (!token) return;
+        const fetchAvatar = async () => {
+            const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+            if (!token) return;
 
-        axios.get('http://localhost/api/avatar', {
-            headers: { 'Authorization': `Bearer ${token}` },
-        })
-            .then(response => setImage('http://localhost/avatar/' + response?.data?.data?.path))
-            .catch(() => setError('Failed to load avatar'));
+            try {
+                const userResponse = await axios.get('http://localhost/api/user/me', {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
 
-        console.log(image);
+                const avatarId = userResponse?.data?.data?.avatar_id;
+                if (!avatarId) return;
+
+                const fileResponse = await axios.get(`http://localhost/api/file/thumbnail?file_id=${avatarId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+
+                setImage(fileResponse?.data?.thumbnail);
+            } catch (err) {
+                setError('Failed to load avatar');
+            }
+        };
+
+        fetchAvatar();
     }, []);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,16 +60,18 @@ export default function AvatarUpload() {
         setError(null);
 
         const formData = new FormData();
-        formData.append('avatar', file);
+        formData.append('image', file);
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost/api/avatar', formData, {
+            await axios.post('http://localhost/api/file/image?avatar=1', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
                 },
             });
+
+            window.location.reload();
         } catch (err) {
             setError('Failed to upload avatar. Try again later.');
         } finally {
@@ -80,7 +94,7 @@ export default function AvatarUpload() {
                 </label>
                 {image && (
                     <div className="relative w-48 h-36 overflow-hidden border-2 border-gray-300">
-                        <img src={image} alt="Avatar"/>
+                        <img src={image} alt="Avatar" />
                     </div>
                 )}
                 {error && <p className="text-red-500">{error}</p>}

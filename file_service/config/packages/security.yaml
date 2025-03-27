@@ -1,0 +1,22 @@
+security:
+    password_hashers:
+        App\Entity\User: 'auto'
+
+    providers:
+        app_user_provider:
+            id: App\Security\UserProvider
+
+    firewalls:
+        public_media:
+            pattern: ^/media
+            security: false
+
+        main:
+            stateless: true
+            provider: app_user_provider
+            custom_authenticators:
+                - App\Security\HeaderAuthenticator
+
+    access_control:
+        - { path: ^/media, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

@@ -30,6 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
+    #[ORM\Column(type: UuidType::NAME, nullable: true)]
+    private ?Uuid $avatar_id = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -76,5 +79,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    public function getAvatarId(): ?Uuid
+    {
+        return $this->avatar_id;
+    }
+
+    public function setAvatarId(?Uuid $avatarId): static
+    {
+        $this->avatar_id = $avatarId;
+
+        return $this;
     }
 }

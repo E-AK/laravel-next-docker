@@ -14,11 +14,12 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpcre3 libpcre3-dev \
     libmagickwand-dev \
+    libwebp-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pecl install amqp redis
 RUN docker-php-ext-enable --ini-name 05-opcache.ini opcache
-RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-configure gd --with-jpeg --with-freetype --with-webp && docker-php-ext-install gd
 RUN docker-php-ext-install sockets pdo pdo_pgsql pgsql
 RUN docker-php-ext-enable sockets amqp redis.so
 RUN pecl install imagick

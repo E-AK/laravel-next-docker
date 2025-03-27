@@ -1,0 +1,15 @@
+old_sound_rabbit_mq:
+  connections:
+    default:
+      host:     '%env(RABBITMQ_HOST)%'
+      port:     '%env(RABBITMQ_PORT)%'
+      user:     '%env(RABBITMQ_USER)%'
+      password: '%env(RABBITMQ_PASSWORD)%'
+      vhost:    '/'
+      lazy:     false
+      connection_timeout: 3
+      read_write_timeout: 3
+  producers:
+    upload_avatar:
+      connection: default
+      exchange_options: { name: 'upload-avatar', type: fanout }

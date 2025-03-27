@@ -24,6 +24,7 @@ class GetController extends AbstractController
             data: [
                 'data' => [
                     'email' => $user->getEmail(),
+                    'avatar_id' => $user->getAvatarId(),
                 ]
             ],
             headers: [

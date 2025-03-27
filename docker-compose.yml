@@ -55,18 +55,18 @@ services:
     volumes:
       - ./notification_service:/var/www/app
 
-  avatar_service:
+  file_service:
     build:
       context: ./
       dockerfile: ./docker/Dockerfile
       args:
-        SERVICE_NAME: avatar_service
+        SERVICE_NAME: file_service
         PHP_VERSION: 8.3
     restart: ${DOCKER_RESTART}
     depends_on:
       - postgres
     volumes:
-      - ./avatar_service:/var/www/app
+      - ./file_service:/var/www/app
     ports:
       - "8080:8080"
 

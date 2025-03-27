@@ -15,7 +15,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class SendEmailAfterRegister  implements EventSubscriberInterface
+class SendEmailAfterRegister implements EventSubscriberInterface
 {
     public function __construct(
         private MessageBusInterface $bus,
