@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Uid\Uuid;
 
 class FileUploadController extends AbstractController
 {
@@ -30,7 +31,7 @@ class FileUploadController extends AbstractController
             return new JsonResponse(['error' => 'No file uploaded'], 400);
         }
 
-        $filePath = $this->fileService->save($file, '/uploads/files');
+        $filePath = $this->fileService->save($file, Uuid::fromString($request->headers->get('X-User-Id')), '/uploads/files');
 
         return new JsonResponse(
             [

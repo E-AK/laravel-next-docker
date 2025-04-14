@@ -8,9 +8,6 @@ services:
       - ./docker/nginx/etc/conf.d:/etc/nginx/conf.d:ro
     ports:
       - "80:80"
-    depends_on:
-      - frontend
-      - user_service
 
   user_service:
     build:

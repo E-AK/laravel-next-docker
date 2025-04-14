@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 class ImageUploadController extends AbstractController
 {
@@ -41,13 +42,22 @@ class ImageUploadController extends AbstractController
     private function processImage(UploadedFile $file, Request $request, CacheManager $imagineCacheManager): JsonResponse
     {
         try {
-            $webpPath = $this->imageService->convertUploadToWebp($file);
-            $resolvedPath = $imagineCacheManager->getBrowserPath($webpPath, 'thumbnail');
+            $file = $this->imageService->convertUploadToWebp(
+                $file,
+                Uuid::fromString($request->headers->get('X-User-Id'))
+            );
+
+            $path = $file->getPath();
+            $resolvedPath = $imagineCacheManager->getBrowserPath($path, 'thumbnail');
+
+            if ( $request->get('avatar')) {
+                $this->imageService->uploadAvatarId($file, $request->headers->get('Authorization'));
+            }
 
             return $this->json([
-                'path' => $webpPath,
+                'path' => $path,
                 'thumbnail' => $resolvedPath,
-                'url' => $request->getSchemeAndHttpHost() . $webpPath
+                'url' => $request->getSchemeAndHttpHost() . $path
             ]);
         } catch (Exception $e) {
             return $this->errorResponse('Image processing failed', Response::HTTP_INTERNAL_SERVER_ERROR, $e->getMessage());

@@ -24,6 +24,16 @@ class File
     #[ORM\Column(type: UuidType::NAME, nullable: false)]
     private ?Uuid $user_id = null;
 
+    private ?bool $avatar = null;
+
+    public function setAvatar(bool $avatar): void {
+        $this->avatar = $avatar;
+    }
+
+    public function isAvatar(): bool {
+        return $this->avatar ?? false;
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;

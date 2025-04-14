@@ -22,7 +22,8 @@ class GetThumbnailController extends AbstractController
     #[Route('/api/file/thumbnail', methods: ['GET'])]
     public function execute(Request $request): JsonResponse
     {
-        $path = $this->fileService->getPath($request);
+        $fileId = $request->get('file_id');
+        $path = $this->fileService->getPath($fileId);
 
         $thumbnailPath = $this->imagineCacheManager->getBrowserPath($path, 'thumbnail');
 

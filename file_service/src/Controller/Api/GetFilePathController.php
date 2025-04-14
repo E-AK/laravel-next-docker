@@ -20,7 +20,8 @@ class GetFilePathController extends AbstractController
     #[Route('/api/file', methods: ['GET'])]
     public function execute(Request $request): JsonResponse
     {
-        $path = $this->fileService->getPath($request);
+        $fileId = $request->get('file_id');
+        $path = $this->fileService->getPath($fileId);
 
         return $this->json([
             'path' => $path,
